@@ -10,7 +10,7 @@ The project is in **Phase 1: technical skeleton**. A minimal Astro + TypeScript 
 
 Requirements:
 
-- Node.js 22 (even-numbered release line; Astro 7 requires Node `>=22.12.0`)
+- Node.js 22 (even-numbered release line; Node `>=22.19.0` is required)
 - npm (this repository does not use pnpm or yarn)
 
 ```bash
