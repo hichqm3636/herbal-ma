@@ -17,7 +17,7 @@ This document records the approved architectural direction for Herbal.ma. It def
 | Authentication in v1 | None |
 | CMS in v1 | None |
 | Notion runtime dependency | Prohibited |
-| Source control | GitHub repository `hicham3636/herbal-ma` |
+| Source control | GitHub repository `hichqm3636/herbal-ma` |
 | Intended hosting | Vercel |
 | Public languages | Arabic primary; English secondary |
 

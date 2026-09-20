@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# generated
+dist/
+.astro/
+
+# logs
+npm-debug.log*
+.npm/
+
+# environment
+.env
+.env.*
+
+# OS
+.DS_Store
