@@ -4,7 +4,31 @@ Herbal.ma is an independent, content-first knowledge platform about dietary supp
 
 ## Current status
 
-The project is in **Phase 0: foundation and documentation**. Implementation has not started. Astro has not been initialized, no dependencies have been installed, and no hosting, database, authentication, CMS, or CI/CD has been configured.
+The project is in **Phase 1: technical skeleton**. A minimal Astro + TypeScript foundation exists so the repository can install, type-check, format, and emit static HTML. The real Herbal.ma website, content system, language routes, layouts, and production content have not been built. Hosting, database, authentication, CMS, and CI/CD have not been configured.
+
+## Local development
+
+Requirements:
+
+- Node.js 22 (even-numbered release line; Astro 7 requires Node `>=22.12.0`)
+- npm (this repository does not use pnpm or yarn)
+
+```bash
+npm install
+npm run dev
+npm run validate
+npm run build
+```
+
+| Command | Purpose |
+| --- | --- |
+| `npm install` | Install the Phase 1 dependencies |
+| `npm run dev` | Start the local development server |
+| `npm run validate` | Run format check, `astro check`, and the production build |
+| `npm run build` | Emit static HTML to `dist/` |
+| `npm run preview` | Serve the static build locally |
+
+Phase 1 is a buildable technical fixture only. It is not the Herbal.ma website.
 
 ## Documentation map
 

@@ -1,0 +1,11 @@
+# generated
+node_modules
+dist
+.astro
+
+# lockfile
+package-lock.json
+
+# Phase 0 documentation must remain byte-for-byte unchanged
+*.md
+docs
