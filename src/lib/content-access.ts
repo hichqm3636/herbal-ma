@@ -43,7 +43,7 @@ export type PublicCategoryContent = {
   ingredients: CollectionEntry<"ingredients">[];
 };
 
-type PublicLocalizedEntry =
+export type PublicLocalizedEntry =
   | CollectionEntry<"articles">
   | CollectionEntry<"ingredients">
   | CollectionEntry<"categories">;
