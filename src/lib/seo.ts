@@ -3,7 +3,7 @@ import type { PublicLocalizedEntry } from "./content-access";
 import type { Locale } from "./locales";
 
 export type SeoAlternate = {
-  hreflang: Locale;
+  hreflang: Locale | "x-default";
   href: string;
 };
 

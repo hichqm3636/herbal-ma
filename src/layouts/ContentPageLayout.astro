@@ -1,6 +1,7 @@
 ---
 import {
   getLocaleDirection,
+  getLocaleRoot,
   getOtherLocale,
   type Locale,
 } from "../lib/locales";
@@ -45,6 +46,7 @@ const copy = {
     counterpartName: "English",
     counterpartUnavailable: "غير متاحة",
     breadcrumb: "مسار التنقل",
+    home: "الرئيسية",
     articles: "المقالات",
     ingredients: "المكوّنات",
     categories: "التصنيفات",
@@ -54,11 +56,13 @@ const copy = {
     counterpartName: "العربية",
     counterpartUnavailable: "unavailable",
     breadcrumb: "Breadcrumb",
+    home: "Home",
     articles: "Articles",
     ingredients: "Ingredients",
     categories: "Categories",
   },
 }[locale];
+const homeHref = getLocaleRoot(locale);
 const collectionHref = getCollectionIndexPath(collection, locale);
 const collectionLabel = copy[collection];
 ---
@@ -76,6 +80,9 @@ const collectionLabel = copy[collection];
   <main>
     <nav aria-label={copy.breadcrumb}>
       <ol>
+        <li>
+          <a href={homeHref}>{copy.home}</a>
+        </li>
         <li>
           <a href={collectionHref}>{collectionLabel}</a>
         </li>

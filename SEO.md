@@ -14,20 +14,41 @@ The current implementation uses this production origin as the single site URL so
 
 That origin is configured as Astro `site` and is passed into URL helpers as `Astro.site`. Public detail pages emit an absolute self-canonical URL for their own locale. They never canonicalize to a translated counterpart.
 
-When a public Arabic and English pair is linked by `translationKey`, both pages emit the same reciprocal `hreflang="ar"` and `hreflang="en"` set. Each URL uses that entry's own slug. Missing counterparts produce no hreflang set. Phase 5 emits no `hreflang="x-default"` on the root, locale roots, content pages, or sitemap.
+When a public Arabic and English pair is linked by `translationKey`, both pages emit the same reciprocal `hreflang="ar"` and `hreflang="en"` set. Each URL uses that entry's own slug. Missing counterparts produce no hreflang set. `hreflang="x-default"` is not emitted on content pages or the sitemap. Phase 7 limits `x-default` to the homepage language cluster.
 
 Root and locale-root indexability:
 
-- `/` is indexable and self-canonical at `https://herbal.ma/`. It has no hreflang set.
-- `/ar/` and `/en/` remain temporary placeholders and use `noindex,follow`. They have no canonical and no hreflang, and they are excluded from the sitemap while they remain placeholders.
+- `/` is indexable and self-canonical at `https://herbal.ma/`.
+- `/ar/` and `/en/` are indexable public homepages. Their canonical, hreflang, and sitemap treatment is defined in the Phase 7 homepage language cluster.
 
-The static sitemap includes `https://herbal.ma/`, populated collection indexes, and every public Article, Ingredient, and Category URL in `ar` and `en`. Public means `published` or `needs-update` only. Draft, in-review, approved, archived, fixture, unsupported-locale, 404, `/ar/`, `/en/`, and empty listings are excluded. Detail entries use `lastmod` of `updatedAt ?? publishedAt`. The root URL and collection indexes omit `lastmod`. The sitemap does not emit `priority`, `changefreq`, sitemap hreflang, or build timestamps.
+The static sitemap includes `https://herbal.ma/`, `https://herbal.ma/ar/`, `https://herbal.ma/en/`, populated collection indexes, and every public Article, Ingredient, and Category URL in `ar` and `en`. Public means `published` or `needs-update` only. Draft, in-review, approved, archived, fixture, unsupported-locale, 404, and empty listings are excluded. Detail entries use `lastmod` of `updatedAt ?? publishedAt`. The root URL, localized homepages, and collection indexes omit `lastmod`. The sitemap does not emit `priority`, `changefreq`, sitemap hreflang, or build timestamps.
 
 `robots.txt` allows crawling of `/` and points to `https://herbal.ma/sitemap.xml`. It is crawling guidance, not an access-control mechanism, and it does not block `/ar/` or `/en/`.
 
 JSON-LD in this phase is Article-only. Ingredient and Category pages do not emit JSON-LD. `needs-update` entries remain public, indexable, self-canonical, hreflang-eligible, sitemap-eligible, and Article JSON-LD eligible where the entity is an Article.
 
 Open Graph tags, Twitter Card tags, and social images are deferred.
+
+## Phase 7 localized homepages
+
+`/ar/` and `/en/` are real public homepages. Each is indexable and self-canonical:
+
+- `https://herbal.ma/ar/`
+- `https://herbal.ma/en/`
+
+Both homepages, and the root language gateway, emit the same homepage alternate cluster:
+
+- `hreflang="ar"` → `https://herbal.ma/ar/`
+- `hreflang="en"` → `https://herbal.ma/en/`
+- `hreflang="x-default"` → `https://herbal.ma/`
+
+`x-default` belongs only to this homepage language cluster. Article, Ingredient, and Category detail pages do not emit it. Article, Ingredient, and Category listing pages do not emit it.
+
+`/ar/` and `/en/` are included in the sitemap without `lastmod`. They do not emit homepage JSON-LD. Open Graph and Twitter metadata remain deferred.
+
+Collection listing rules are unchanged: empty listings stay `noindex,follow` without canonical or hreflang and stay out of the sitemap; populated listings stay indexable, self-canonical, and sitemap-eligible, with reciprocal `ar`/`en` hreflang only when both locale listings are populated.
+
+Detail rules are unchanged: self-canonical URLs, reciprocal hreflang only for a public translation pair, and Article-only JSON-LD.
 
 ## Phase 6 collection listings
 
@@ -41,7 +62,7 @@ Empty listings remain reachable for navigation but use `noindex,follow`. They ha
 
 Populated listings are indexable, emit an absolute self-canonical URL for that collection index, and are sitemap-eligible. They emit reciprocal `hreflang="ar"` and `hreflang="en"` only when both locale listings for that collection are populated. A listing with no public counterpart listing emits no hreflang set. Phase 6 emits no `hreflang="x-default"` and no listing JSON-LD.
 
-Locale roots `/ar/` and `/en/` remain temporary placeholders with `noindex,follow`, no canonical, and no hreflang. They now include structural site and language navigation, but they are still excluded from the sitemap.
+Locale roots `/ar/` and `/en/` include structural site and language navigation. Phase 7 makes them indexable public homepages; see the homepage language cluster above.
 
 ## Language-prefixed URLs
 
@@ -67,7 +88,7 @@ Published Arabic and English counterparts linked by `translationKey` should decl
 
 Only published, indexable counterparts may appear in a hreflang set. Hreflang relationships must use absolute canonical URLs and must not be inferred solely from similar slugs.
 
-The site root `/` is a static locale-choice page. Arabic is presented first and English second. There is no automatic redirect from `/` to a locale root. Phase 5 does not emit `hreflang="x-default"`; whether an `x-default` target is useful remains deferred to a later homepage phase.
+The site root `/` is a static locale-choice page. Arabic is presented first and English second. There is no automatic redirect from `/` to a locale root. `/` participates in the homepage alternate cluster and is the `hreflang="x-default"` target for that cluster only.
 
 ## Sitemap principles
 
