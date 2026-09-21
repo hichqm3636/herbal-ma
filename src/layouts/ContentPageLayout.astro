@@ -1,0 +1,80 @@
+---
+import {
+  getLocaleDirection,
+  getOtherLocale,
+  type Locale,
+} from "../lib/locales";
+import type { PublicEntryPath } from "../lib/content-access";
+import LocaleLayout from "./LocaleLayout.astro";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  heading: string;
+  summary: string;
+  needsUpdate?: boolean;
+  counterpartHref?: PublicEntryPath;
+}
+
+const { locale, title, heading, summary, needsUpdate, counterpartHref } =
+  Astro.props;
+const counterpartLocale = getOtherLocale(locale);
+const counterpartDirection = getLocaleDirection(counterpartLocale);
+const copy = {
+  ar: {
+    needsUpdate: "هذه الصفحة معلّمة بأنها تحتاج تحديثا.",
+    counterpartName: "English",
+    counterpartUnavailable: "غير متاحة",
+  },
+  en: {
+    needsUpdate: "This page is marked as needing an update.",
+    counterpartName: "العربية",
+    counterpartUnavailable: "unavailable",
+  },
+}[locale];
+---
+
+<LocaleLayout locale={locale} title={title}>
+  <main>
+    <article>
+      <header>
+        <h1>{heading}</h1>
+        <p>{summary}</p>
+        {needsUpdate && (
+          <p>
+            <strong>{copy.needsUpdate}</strong>
+          </p>
+        )}
+        <p>
+          {counterpartHref ? (
+            <a
+              href={counterpartHref}
+              lang={counterpartLocale}
+              dir={counterpartDirection}
+            >
+              {copy.counterpartName}
+            </a>
+          ) : (
+            <>
+              <span lang={counterpartLocale} dir={counterpartDirection}>
+                {copy.counterpartName}
+              </span>
+              {" — "}
+              {copy.counterpartUnavailable}
+            </>
+          )}
+        </p>
+      </header>
+      <slot />
+    </article>
+  </main>
+</LocaleLayout>
+
+<style>
+  main {
+    max-inline-size: 40rem;
+    margin-inline: auto;
+    padding: 1rem;
+    line-height: 1.6;
+  }
+</style>

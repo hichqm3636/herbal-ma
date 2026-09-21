@@ -12,7 +12,10 @@ Keyword research is outside Phase 0.
 - All indexable English content belongs under `/en/`.
 - Arabic pages use RTL presentation; English pages use LTR presentation.
 - Public slugs should be readable, stable ASCII slugs.
-- Route taxonomy below the locale prefix will be decided during implementation without changing the language-prefix rule.
+- Route taxonomy below the locale prefix uses stable entity-based public URLs:
+  - `/{locale}/articles/{slug}/`
+  - `/{locale}/ingredients/{slug}/`
+  - `/{locale}/categories/{slug}/`
 - A missing translation must not silently redirect users to, or masquerade as, the other language.
 
 ## Canonical strategy

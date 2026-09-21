@@ -1,0 +1,130 @@
+---
+import type { Locale } from "../../lib/locales";
+import type { PublicAttribution } from "../../lib/content-access";
+
+interface Props {
+  locale: Locale;
+  authors: PublicAttribution[];
+  reviewers?: PublicAttribution[];
+  publishedAt: string;
+  updatedAt?: string;
+  lastReviewedAt?: string;
+}
+
+const {
+  locale,
+  authors,
+  reviewers = [],
+  publishedAt,
+  updatedAt,
+  lastReviewedAt,
+} = Astro.props;
+
+const copy = {
+  ar: {
+    authors: "المؤلفون",
+    reviewers: "المراجعون",
+    published: "تاريخ النشر",
+    updated: "تاريخ التحديث",
+    lastReviewed: "تاريخ آخر مراجعة",
+  },
+  en: {
+    authors: "Authors",
+    reviewers: "Reviewers",
+    published: "Published",
+    updated: "Updated",
+    lastReviewed: "Last reviewed",
+  },
+}[locale];
+
+function formatUtcDate(value: string): string {
+  const date = value.includes("T")
+    ? new Date(value)
+    : new Date(`${value}T00:00:00Z`);
+
+  return new Intl.DateTimeFormat(locale, {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+---
+
+<section>
+  {authors.length > 0 && (
+    <>
+      <h2>{copy.authors}</h2>
+      <ul>
+        {authors.map((author) => (
+          <li>
+            <p>{author.displayName}</p>
+            {author.role && <p>{author.role}</p>}
+            {author.qualifications && (
+              <ul>
+                {author.qualifications.map((qualification) => (
+                  <li>{qualification}</li>
+                ))}
+              </ul>
+            )}
+            {author.disclosures && (
+              <ul>
+                {author.disclosures.map((disclosure) => (
+                  <li>{disclosure}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  {reviewers.length > 0 && (
+    <>
+      <h2>{copy.reviewers}</h2>
+      <ul>
+        {reviewers.map((reviewer) => (
+          <li>
+            <p>{reviewer.displayName}</p>
+            {reviewer.role && <p>{reviewer.role}</p>}
+            {reviewer.qualifications && (
+              <ul>
+                {reviewer.qualifications.map((qualification) => (
+                  <li>{qualification}</li>
+                ))}
+              </ul>
+            )}
+            {reviewer.disclosures && (
+              <ul>
+                {reviewer.disclosures.map((disclosure) => (
+                  <li>{disclosure}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  <p>
+    {copy.published}
+    {": "}
+    <time datetime={publishedAt}>{formatUtcDate(publishedAt)}</time>
+  </p>
+  {updatedAt && (
+    <p>
+      {copy.updated}
+      {": "}
+      <time datetime={updatedAt}>{formatUtcDate(updatedAt)}</time>
+    </p>
+  )}
+  {lastReviewedAt && (
+    <p>
+      {copy.lastReviewed}
+      {": "}
+      <time datetime={lastReviewedAt}>{formatUtcDate(lastReviewedAt)}</time>
+    </p>
+  )}
+</section>
