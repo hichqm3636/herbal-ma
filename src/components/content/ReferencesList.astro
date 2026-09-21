@@ -1,0 +1,59 @@
+---
+import { type PublicCitation } from "../../lib/content-access";
+import { type Locale } from "../../lib/locales";
+
+interface Props {
+  locale: Locale;
+  citations: PublicCitation[];
+}
+
+const { locale, citations } = Astro.props;
+const heading = locale === "ar" ? "المراجع" : "References";
+
+function formatUtcDate(value: string): string {
+  return new Intl.DateTimeFormat(locale, {
+    dateStyle: "long",
+    timeZone: "UTC",
+  }).format(new Date(value));
+}
+---
+
+{citations.length > 0 && (
+  <section>
+    <h2>{heading}</h2>
+    <ol>
+      {citations.map((citation) => (
+        <li>
+          <p>{citation.title}</p>
+          <p>{citation.publisher}</p>
+          {citation.authors && citation.authors.length > 0 && (
+            <p>{citation.authors.join(", ")}</p>
+          )}
+          {citation.institution && <p>{citation.institution}</p>}
+          {citation.publishedOn && (
+            <p>
+              <time datetime={citation.publishedOn}>
+                {formatUtcDate(citation.publishedOn)}
+              </time>
+            </p>
+          )}
+          <p>{citation.supports}</p>
+          {citation.locator && <p>{citation.locator}</p>}
+          {citation.url && (
+            <p>
+              <a href={citation.url}>{citation.url}</a>
+            </p>
+          )}
+          {citation.doi && <p>{citation.doi}</p>}
+          {citation.accessedOn && (
+            <p>
+              <time datetime={citation.accessedOn}>
+                {formatUtcDate(citation.accessedOn)}
+              </time>
+            </p>
+          )}
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

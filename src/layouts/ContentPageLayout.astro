@@ -1,0 +1,58 @@
+---
+import { type Locale } from "../lib/locales";
+import LocaleLayout from "./LocaleLayout.astro";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  heading: string;
+  summary: string;
+  needsUpdate?: boolean;
+  counterpartHref?: string;
+  counterpartLabel: string;
+  counterpartUnavailableLabel: string;
+}
+
+const {
+  locale,
+  title,
+  heading,
+  summary,
+  needsUpdate = false,
+  counterpartHref,
+  counterpartLabel,
+  counterpartUnavailableLabel,
+} = Astro.props;
+
+const needsUpdateNotice =
+  locale === "ar"
+    ? "هذه الصفحة تحتاج إلى تحديث."
+    : "This page needs an update.";
+---
+
+<LocaleLayout locale={locale} title={title}>
+  <main>
+    <article>
+      <h1>{heading}</h1>
+      <p>{summary}</p>
+      {needsUpdate && <p>{needsUpdateNotice}</p>}
+      <p>
+        {counterpartHref ? (
+          <a href={counterpartHref}>{counterpartLabel}</a>
+        ) : (
+          <span>{counterpartUnavailableLabel}</span>
+        )}
+      </p>
+      <slot />
+    </article>
+  </main>
+</LocaleLayout>
+
+<style>
+  main {
+    max-inline-size: 40rem;
+    margin-inline: auto;
+    padding: 1rem;
+    line-height: 1.6;
+  }
+</style>

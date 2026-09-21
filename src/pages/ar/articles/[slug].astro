@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ArticlePage from "../../../components/content/ArticlePage.astro";
+import { listPublicEntries } from "../../../lib/content-access";
+
+export async function getStaticPaths() {
+  const entries = await listPublicEntries("articles", "ar");
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"articles">;
+}
+
+const { entry } = Astro.props;
+---
+
+<ArticlePage entry={entry} />

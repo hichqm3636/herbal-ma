@@ -1,0 +1,133 @@
+---
+import type { CollectionEntry } from "astro:content";
+import {
+  getPublicEntryPath,
+  getPublicPublishedAt,
+  getPublicTranslationCounterpart,
+  renderPublicArticleBody,
+  resolvePublicAttributions,
+  resolvePublicCitations,
+  resolvePublicReferences,
+} from "../../lib/content-access";
+import { getOtherLocale } from "../../lib/locales";
+import ContentPageLayout from "../../layouts/ContentPageLayout.astro";
+import EditorialAttribution from "./EditorialAttribution.astro";
+import ReferencesList from "./ReferencesList.astro";
+
+interface Props {
+  entry: CollectionEntry<"articles">;
+}
+
+const { entry } = Astro.props;
+const locale = entry.data.locale;
+const otherLocale = getOtherLocale(locale);
+const counterpart = await getPublicTranslationCounterpart(
+  "articles",
+  entry,
+  otherLocale,
+);
+const counterpartHref = counterpart
+  ? getPublicEntryPath(counterpart)
+  : undefined;
+const { Content } = await renderPublicArticleBody(entry);
+const authors = await resolvePublicAttributions(entry.data.authors, locale);
+const reviewers = await resolvePublicAttributions(entry.data.reviewers, locale);
+const categories = await resolvePublicReferences(
+  "categories",
+  locale,
+  entry.data.categories,
+);
+const ingredients = await resolvePublicReferences(
+  "ingredients",
+  locale,
+  entry.data.ingredients,
+);
+const relatedArticles = await resolvePublicReferences(
+  "articles",
+  locale,
+  entry.data.relatedArticles,
+);
+const citations = await resolvePublicCitations(entry.data.sources);
+const publishedAt = getPublicPublishedAt(entry);
+const labels =
+  locale === "ar"
+    ? {
+        categories: "التصنيفات",
+        ingredients: "المكوّنات",
+        relatedArticles: "مقالات ذات صلة",
+        counterpartLabel: "English",
+        counterpartUnavailableLabel: "English — غير متوفرة",
+      }
+    : {
+        categories: "Categories",
+        ingredients: "Ingredients",
+        relatedArticles: "Related articles",
+        counterpartLabel: "العربية",
+        counterpartUnavailableLabel: "العربية — unavailable",
+      };
+---
+
+<ContentPageLayout
+  locale={locale}
+  title={entry.data.title}
+  heading={entry.data.title}
+  summary={entry.data.summary}
+  needsUpdate={entry.data.status === "needs-update"}
+  counterpartHref={counterpartHref}
+  counterpartLabel={labels.counterpartLabel}
+  counterpartUnavailableLabel={labels.counterpartUnavailableLabel}
+>
+  <EditorialAttribution
+    locale={locale}
+    authors={authors}
+    reviewers={reviewers}
+    publishedAt={publishedAt}
+    updatedAt={entry.data.updatedAt}
+    lastReviewedAt={entry.data.lastReviewedAt}
+  />
+
+  {entry.data.commercialDisclosure && <p>{entry.data.commercialDisclosure}</p>}
+
+  <Content />
+
+  {categories.length > 0 && (
+    <section>
+      <h2>{labels.categories}</h2>
+      <ul>
+        {categories.map((category) => (
+          <li>
+            <a href={getPublicEntryPath(category)}>{category.data.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {ingredients.length > 0 && (
+    <section>
+      <h2>{labels.ingredients}</h2>
+      <ul>
+        {ingredients.map((ingredient) => (
+          <li>
+            <a href={getPublicEntryPath(ingredient)}>{ingredient.data.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {relatedArticles.length > 0 && (
+    <section>
+      <h2>{labels.relatedArticles}</h2>
+      <ul>
+        {relatedArticles.map((article) => (
+          <li>
+            <a href={getPublicEntryPath(article)}>{article.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <ReferencesList locale={locale} citations={citations} />
+</ContentPageLayout>

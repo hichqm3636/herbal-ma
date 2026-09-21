@@ -1,0 +1,120 @@
+---
+import type { CollectionEntry } from "astro:content";
+import {
+  getPublicEntryPath,
+  getPublicPublishedAt,
+  getPublicTranslationCounterpart,
+  resolvePublicAttributions,
+  resolvePublicCategoryRelations,
+} from "../../lib/content-access";
+import { getOtherLocale } from "../../lib/locales";
+import ContentPageLayout from "../../layouts/ContentPageLayout.astro";
+import EditorialAttribution from "./EditorialAttribution.astro";
+
+interface Props {
+  entry: CollectionEntry<"categories">;
+}
+
+const { entry } = Astro.props;
+const locale = entry.data.locale;
+const otherLocale = getOtherLocale(locale);
+const counterpart = await getPublicTranslationCounterpart(
+  "categories",
+  entry,
+  otherLocale,
+);
+const counterpartHref = counterpart
+  ? getPublicEntryPath(counterpart)
+  : undefined;
+const authors = await resolvePublicAttributions(entry.data.authors, locale);
+const reviewers = await resolvePublicAttributions(entry.data.reviewers, locale);
+const relations = await resolvePublicCategoryRelations(entry);
+const publishedAt = getPublicPublishedAt(entry);
+const labels =
+  locale === "ar"
+    ? {
+        parent: "التصنيف الأصلي",
+        children: "التصنيفات الفرعية",
+        articles: "المقالات",
+        ingredients: "المكوّنات",
+        counterpartLabel: "English",
+        counterpartUnavailableLabel: "English — غير متوفرة",
+      }
+    : {
+        parent: "Parent category",
+        children: "Child categories",
+        articles: "Articles",
+        ingredients: "Ingredients",
+        counterpartLabel: "العربية",
+        counterpartUnavailableLabel: "العربية — unavailable",
+      };
+---
+
+<ContentPageLayout
+  locale={locale}
+  title={entry.data.name}
+  heading={entry.data.name}
+  summary={entry.data.description}
+  needsUpdate={entry.data.status === "needs-update"}
+  counterpartHref={counterpartHref}
+  counterpartLabel={labels.counterpartLabel}
+  counterpartUnavailableLabel={labels.counterpartUnavailableLabel}
+>
+  <EditorialAttribution
+    locale={locale}
+    authors={authors}
+    reviewers={reviewers}
+    publishedAt={publishedAt}
+    updatedAt={entry.data.updatedAt}
+  />
+
+  {relations.parent && (
+    <section>
+      <h2>{labels.parent}</h2>
+      <p>
+        <a href={getPublicEntryPath(relations.parent)}>
+          {relations.parent.data.name}
+        </a>
+      </p>
+    </section>
+  )}
+
+  {relations.children.length > 0 && (
+    <section>
+      <h2>{labels.children}</h2>
+      <ul>
+        {relations.children.map((category) => (
+          <li>
+            <a href={getPublicEntryPath(category)}>{category.data.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {relations.articles.length > 0 && (
+    <section>
+      <h2>{labels.articles}</h2>
+      <ul>
+        {relations.articles.map((article) => (
+          <li>
+            <a href={getPublicEntryPath(article)}>{article.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {relations.ingredients.length > 0 && (
+    <section>
+      <h2>{labels.ingredients}</h2>
+      <ul>
+        {relations.ingredients.map((ingredient) => (
+          <li>
+            <a href={getPublicEntryPath(ingredient)}>{ingredient.data.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</ContentPageLayout>
