@@ -1,12 +1,15 @@
 ---
 import { getLocaleDirection, type Locale } from "../lib/locales";
+import type { SeoMetadata } from "../lib/seo";
+import SeoHead from "../components/SeoHead.astro";
 
-interface Props {
+interface Props extends SeoMetadata {
   locale: Locale;
   title: string;
 }
 
-const { locale, title } = Astro.props;
+const { locale, title, description, canonical, alternates, robots, jsonLd } =
+  Astro.props;
 const dir = getLocaleDirection(locale);
 ---
 
@@ -15,7 +18,14 @@ const dir = getLocaleDirection(locale);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <SeoHead
+      title={title}
+      description={description}
+      canonical={canonical}
+      alternates={alternates}
+      robots={robots}
+      jsonLd={jsonLd}
+    />
   </head>
   <body>
     <slot />

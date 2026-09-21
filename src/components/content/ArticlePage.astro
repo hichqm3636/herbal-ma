@@ -10,6 +10,13 @@ import {
   resolvePublicCitations,
   resolvePublicReferences,
 } from "../../lib/content-access";
+import {
+  buildArticleStructuredData,
+  getAbsolutePublicEntryUrl,
+  getPublicHreflangLinks,
+  getSeoModifiedAt,
+  serializeJsonLd,
+} from "../../lib/seo";
 import ContentPageLayout from "../../layouts/ContentPageLayout.astro";
 import EditorialAttribution from "./EditorialAttribution.astro";
 import ReferencesList from "./ReferencesList.astro";
@@ -48,6 +55,19 @@ const counterpart = await getPublicTranslationCounterpart(
 const counterpartHref = counterpart
   ? getPublicEntryPath(counterpart)
   : undefined;
+const canonical = getAbsolutePublicEntryUrl(entry, Astro.site);
+const alternates = getPublicHreflangLinks(entry, counterpart, Astro.site);
+const jsonLd = serializeJsonLd(
+  buildArticleStructuredData({
+    headline: entry.data.title,
+    description: entry.data.summary,
+    url: canonical,
+    datePublished: publishedAt,
+    dateModified: getSeoModifiedAt(entry),
+    inLanguage: locale,
+    authorNames: authors.map((author) => author.displayName),
+  }),
+);
 
 const copy = {
   ar: {
@@ -67,11 +87,15 @@ const copy = {
 
 <ContentPageLayout
   locale={locale}
-  title={entry.data.title}
+  title={`${entry.data.title} — Herbal.ma`}
   heading={entry.data.title}
   summary={entry.data.summary}
   needsUpdate={entry.data.status === "needs-update"}
   counterpartHref={counterpartHref}
+  description={entry.data.summary}
+  canonical={canonical}
+  alternates={alternates}
+  jsonLd={jsonLd}
 >
   <EditorialAttribution
     locale={locale}

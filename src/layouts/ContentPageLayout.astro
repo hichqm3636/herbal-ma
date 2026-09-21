@@ -5,9 +5,10 @@ import {
   type Locale,
 } from "../lib/locales";
 import type { PublicEntryPath } from "../lib/content-access";
+import type { SeoMetadata } from "../lib/seo";
 import LocaleLayout from "./LocaleLayout.astro";
 
-interface Props {
+interface Props extends SeoMetadata {
   locale: Locale;
   title: string;
   heading: string;
@@ -16,8 +17,19 @@ interface Props {
   counterpartHref?: PublicEntryPath;
 }
 
-const { locale, title, heading, summary, needsUpdate, counterpartHref } =
-  Astro.props;
+const {
+  locale,
+  title,
+  heading,
+  summary,
+  needsUpdate,
+  counterpartHref,
+  description,
+  canonical,
+  alternates,
+  robots,
+  jsonLd,
+} = Astro.props;
 const counterpartLocale = getOtherLocale(locale);
 const counterpartDirection = getLocaleDirection(counterpartLocale);
 const copy = {
@@ -34,7 +46,15 @@ const copy = {
 }[locale];
 ---
 
-<LocaleLayout locale={locale} title={title}>
+<LocaleLayout
+  locale={locale}
+  title={title}
+  description={description}
+  canonical={canonical}
+  alternates={alternates}
+  robots={robots}
+  jsonLd={jsonLd}
+>
   <main>
     <article>
       <header>

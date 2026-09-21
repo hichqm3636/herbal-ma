@@ -8,6 +8,10 @@ import {
   resolvePublicAttribution,
   resolvePublicCategoryContent,
 } from "../../lib/content-access";
+import {
+  getAbsolutePublicEntryUrl,
+  getPublicHreflangLinks,
+} from "../../lib/seo";
 import ContentPageLayout from "../../layouts/ContentPageLayout.astro";
 import EditorialAttribution from "./EditorialAttribution.astro";
 
@@ -30,6 +34,8 @@ const counterpart = await getPublicTranslationCounterpart(
 const counterpartHref = counterpart
   ? getPublicEntryPath(counterpart)
   : undefined;
+const canonical = getAbsolutePublicEntryUrl(entry, Astro.site);
+const alternates = getPublicHreflangLinks(entry, counterpart, Astro.site);
 
 const copy = {
   ar: {
@@ -49,11 +55,14 @@ const copy = {
 
 <ContentPageLayout
   locale={locale}
-  title={entry.data.name}
+  title={`${entry.data.name} — Herbal.ma`}
   heading={entry.data.name}
   summary={entry.data.description}
   needsUpdate={entry.data.status === "needs-update"}
   counterpartHref={counterpartHref}
+  description={entry.data.description}
+  canonical={canonical}
+  alternates={alternates}
 >
   <EditorialAttribution
     locale={locale}

@@ -6,6 +6,29 @@ Herbal.ma uses technical SEO to make useful, reviewed educational content discov
 
 Keyword research is outside Phase 0.
 
+## Phase 5 technical SEO foundation
+
+The current implementation uses this production origin as the single site URL source of truth:
+
+- `https://herbal.ma`
+
+That origin is configured as Astro `site` and is passed into URL helpers as `Astro.site`. Public detail pages emit an absolute self-canonical URL for their own locale. They never canonicalize to a translated counterpart.
+
+When a public Arabic and English pair is linked by `translationKey`, both pages emit the same reciprocal `hreflang="ar"` and `hreflang="en"` set. Each URL uses that entry's own slug. Missing counterparts produce no hreflang set. Phase 5 emits no `hreflang="x-default"` on the root, locale roots, content pages, or sitemap.
+
+Root and locale-root indexability:
+
+- `/` is indexable and self-canonical at `https://herbal.ma/`. It has no hreflang set.
+- `/ar/` and `/en/` remain temporary placeholders and use `noindex,follow`. They have no canonical and no hreflang, and they are excluded from the sitemap while they remain placeholders.
+
+The static sitemap includes `https://herbal.ma/` and every public Article, Ingredient, and Category URL in `ar` and `en`. Public means `published` or `needs-update` only. Draft, in-review, approved, archived, fixture, unsupported-locale, 404, `/ar/`, and `/en/` URLs are excluded. Detail entries use `lastmod` of `updatedAt ?? publishedAt`. The root URL omits `lastmod`. The sitemap does not emit `priority`, `changefreq`, sitemap hreflang, or build timestamps.
+
+`robots.txt` allows crawling of `/` and points to `https://herbal.ma/sitemap.xml`. It is crawling guidance, not an access-control mechanism, and it does not block `/ar/` or `/en/`.
+
+JSON-LD in this phase is Article-only. Ingredient and Category pages do not emit JSON-LD. `needs-update` entries remain public, indexable, self-canonical, hreflang-eligible, sitemap-eligible, and Article JSON-LD eligible where the entity is an Article.
+
+Open Graph tags, Twitter Card tags, and social images are deferred.
+
 ## Language-prefixed URLs
 
 - All indexable Arabic content belongs under `/ar/`.
@@ -30,7 +53,7 @@ Published Arabic and English counterparts linked by `translationKey` should decl
 
 Only published, indexable counterparts may appear in a hreflang set. Hreflang relationships must use absolute canonical URLs and must not be inferred solely from similar slugs.
 
-The site root `/` is a static locale-choice page. Arabic is presented first and English second. There is no automatic redirect from `/` to a locale root. Whether an `x-default` target is useful remains deferred to the SEO implementation phase.
+The site root `/` is a static locale-choice page. Arabic is presented first and English second. There is no automatic redirect from `/` to a locale root. Phase 5 does not emit `hreflang="x-default"`; whether an `x-default` target is useful remains deferred to a later homepage phase.
 
 ## Sitemap principles
 
@@ -69,7 +92,7 @@ Each indexable page requires locale-appropriate:
 - one clear primary heading;
 - canonical URL;
 - language and direction declarations;
-- share metadata when used;
+- share metadata when used (Open Graph, Twitter Cards, and social images remain deferred);
 - publication and modification information where applicable.
 
 Metadata must be human-reviewed. Avoid keyword stuffing, unverified benefit language, boilerplate that obscures the page topic, and automatic translation without locale review.
