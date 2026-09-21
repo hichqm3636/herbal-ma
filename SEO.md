@@ -21,13 +21,27 @@ Root and locale-root indexability:
 - `/` is indexable and self-canonical at `https://herbal.ma/`. It has no hreflang set.
 - `/ar/` and `/en/` remain temporary placeholders and use `noindex,follow`. They have no canonical and no hreflang, and they are excluded from the sitemap while they remain placeholders.
 
-The static sitemap includes `https://herbal.ma/` and every public Article, Ingredient, and Category URL in `ar` and `en`. Public means `published` or `needs-update` only. Draft, in-review, approved, archived, fixture, unsupported-locale, 404, `/ar/`, and `/en/` URLs are excluded. Detail entries use `lastmod` of `updatedAt ?? publishedAt`. The root URL omits `lastmod`. The sitemap does not emit `priority`, `changefreq`, sitemap hreflang, or build timestamps.
+The static sitemap includes `https://herbal.ma/`, populated collection indexes, and every public Article, Ingredient, and Category URL in `ar` and `en`. Public means `published` or `needs-update` only. Draft, in-review, approved, archived, fixture, unsupported-locale, 404, `/ar/`, `/en/`, and empty listings are excluded. Detail entries use `lastmod` of `updatedAt ?? publishedAt`. The root URL and collection indexes omit `lastmod`. The sitemap does not emit `priority`, `changefreq`, sitemap hreflang, or build timestamps.
 
 `robots.txt` allows crawling of `/` and points to `https://herbal.ma/sitemap.xml`. It is crawling guidance, not an access-control mechanism, and it does not block `/ar/` or `/en/`.
 
 JSON-LD in this phase is Article-only. Ingredient and Category pages do not emit JSON-LD. `needs-update` entries remain public, indexable, self-canonical, hreflang-eligible, sitemap-eligible, and Article JSON-LD eligible where the entity is an Article.
 
 Open Graph tags, Twitter Card tags, and social images are deferred.
+
+## Phase 6 collection listings
+
+Public collection indexes exist at:
+
+- `/ar/articles/` and `/en/articles/`
+- `/ar/ingredients/` and `/en/ingredients/`
+- `/ar/categories/` and `/en/categories/`
+
+Empty listings remain reachable for navigation but use `noindex,follow`. They have no canonical, no hreflang, no JSON-LD, and are excluded from the sitemap.
+
+Populated listings are indexable, emit an absolute self-canonical URL for that collection index, and are sitemap-eligible. They emit reciprocal `hreflang="ar"` and `hreflang="en"` only when both locale listings for that collection are populated. A listing with no public counterpart listing emits no hreflang set. Phase 6 emits no `hreflang="x-default"` and no listing JSON-LD.
+
+Locale roots `/ar/` and `/en/` remain temporary placeholders with `noindex,follow`, no canonical, and no hreflang. They now include structural site and language navigation, but they are still excluded from the sitemap.
 
 ## Language-prefixed URLs
 

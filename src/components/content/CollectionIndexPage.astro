@@ -1,0 +1,284 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { LocalizedCollection } from "../../lib/content-access";
+import {
+  getPublicEntryPath,
+  getPublicPublishedAt,
+  listPublicEntries,
+} from "../../lib/content-access";
+import { getOtherLocale, type Locale } from "../../lib/locales";
+import { getCollectionIndexPath } from "../../lib/routes";
+import { getAbsoluteSiteUrl, type SeoAlternate } from "../../lib/seo";
+import LocaleLayout from "../../layouts/LocaleLayout.astro";
+import LocaleNavigation from "../LocaleNavigation.astro";
+import SiteNavigation from "../SiteNavigation.astro";
+
+interface Props {
+  locale: Locale;
+  collection: LocalizedCollection;
+}
+
+const listingCopy = {
+  ar: {
+    empty: "لا يوجد محتوى منشور في هذا القسم بعد.",
+    needsUpdate: "يحتاج إلى تحديث",
+    articles: {
+      heading: "المقالات",
+      title: "المقالات — Herbal.ma",
+      description:
+        "مقالات تعليمية حول الأعشاب والمكمّلات الغذائية والتغذية والعافية.",
+    },
+    ingredients: {
+      heading: "المكوّنات",
+      title: "المكوّنات — Herbal.ma",
+      description:
+        "تعرّف على الأعشاب والعناصر الغذائية والمركّبات التي يغطيها Herbal.ma.",
+    },
+    categories: {
+      heading: "التصنيفات",
+      title: "التصنيفات — Herbal.ma",
+      description: "استكشف محتوى Herbal.ma حسب الموضوع.",
+    },
+  },
+  en: {
+    empty: "No published content is available in this section yet.",
+    needsUpdate: "Needs update",
+    articles: {
+      heading: "Articles",
+      title: "Articles — Herbal.ma",
+      description:
+        "Educational articles about herbs, dietary supplements, nutrition, and wellness.",
+    },
+    ingredients: {
+      heading: "Ingredients",
+      title: "Ingredients — Herbal.ma",
+      description:
+        "Explore herbs, nutrients, and compounds covered by Herbal.ma.",
+    },
+    categories: {
+      heading: "Categories",
+      title: "Categories — Herbal.ma",
+      description: "Explore Herbal.ma content by topic.",
+    },
+  },
+} as const;
+
+const { locale, collection } = Astro.props;
+const otherLocale = getOtherLocale(locale);
+const entries = await listPublicEntries(collection, locale);
+const counterpartEntries = await listPublicEntries(collection, otherLocale);
+const collator = new Intl.Collator(locale);
+const sortedEntries = sortListingEntries(collection, entries, collator);
+const isPopulated = sortedEntries.length > 0;
+const counterpartIsPopulated = counterpartEntries.length > 0;
+const listingPath = getCollectionIndexPath(collection, locale);
+const counterpartPath = getCollectionIndexPath(collection, otherLocale);
+const copy = listingCopy[locale][collection];
+const emptyMessage = listingCopy[locale].empty;
+const needsUpdateNotice = listingCopy[locale].needsUpdate;
+const canonical = isPopulated
+  ? getAbsoluteSiteUrl(listingPath, Astro.site)
+  : undefined;
+const alternates =
+  isPopulated && counterpartIsPopulated
+    ? getListingHreflangLinks(collection, Astro.site)
+    : undefined;
+const robots = isPopulated ? undefined : "noindex,follow";
+
+function compareRaw(left: string, right: string): number {
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
+function compareLocalizedText(
+  left: string,
+  right: string,
+  textCollator: Intl.Collator,
+): number {
+  const localized = textCollator.compare(left, right);
+  if (localized !== 0) {
+    return localized;
+  }
+
+  return compareRaw(left, right);
+}
+
+function sortArticles(
+  articleEntries: CollectionEntry<"articles">[],
+  textCollator: Intl.Collator,
+): CollectionEntry<"articles">[] {
+  return [...articleEntries].sort((left, right) => {
+    const publishedLeft = getPublicPublishedAt(left);
+    const publishedRight = getPublicPublishedAt(right);
+    if (publishedLeft !== publishedRight) {
+      return publishedLeft < publishedRight ? 1 : -1;
+    }
+
+    const titleCompare = compareLocalizedText(
+      left.data.title,
+      right.data.title,
+      textCollator,
+    );
+    if (titleCompare !== 0) {
+      return titleCompare;
+    }
+
+    return compareRaw(left.data.slug, right.data.slug);
+  });
+}
+
+function sortNamedEntries<C extends "ingredients" | "categories">(
+  namedEntries: CollectionEntry<C>[],
+  textCollator: Intl.Collator,
+): CollectionEntry<C>[] {
+  return [...namedEntries].sort((left, right) => {
+    const nameCompare = compareLocalizedText(
+      left.data.name,
+      right.data.name,
+      textCollator,
+    );
+    if (nameCompare !== 0) {
+      return nameCompare;
+    }
+
+    return compareRaw(left.data.slug, right.data.slug);
+  });
+}
+
+function sortListingEntries(
+  listingCollection: LocalizedCollection,
+  listingEntries: Awaited<ReturnType<typeof listPublicEntries>>,
+  textCollator: Intl.Collator,
+) {
+  if (listingCollection === "articles") {
+    return sortArticles(
+      listingEntries as CollectionEntry<"articles">[],
+      textCollator,
+    );
+  }
+
+  if (listingCollection === "ingredients") {
+    return sortNamedEntries(
+      listingEntries as CollectionEntry<"ingredients">[],
+      textCollator,
+    );
+  }
+
+  return sortNamedEntries(
+    listingEntries as CollectionEntry<"categories">[],
+    textCollator,
+  );
+}
+
+function getListingHreflangLinks(
+  listingCollection: LocalizedCollection,
+  site: URL | undefined,
+): SeoAlternate[] {
+  return (["ar", "en"] as const).map((hreflang) => ({
+    hreflang,
+    href: getAbsoluteSiteUrl(
+      getCollectionIndexPath(listingCollection, hreflang),
+      site,
+    ),
+  }));
+}
+
+function formatUtcDate(value: string): string {
+  const date = value.includes("T")
+    ? new Date(value)
+    : new Date(`${value}T00:00:00Z`);
+
+  return new Intl.DateTimeFormat(locale, {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+---
+
+<LocaleLayout
+  locale={locale}
+  title={copy.title}
+  description={copy.description}
+  canonical={canonical}
+  alternates={alternates}
+  robots={robots}
+>
+  <SiteNavigation locale={locale} current={collection} />
+  <LocaleNavigation currentLocale={locale} targetPath={counterpartPath} />
+  <main>
+    <h1>{copy.heading}</h1>
+    <p>{copy.description}</p>
+    {isPopulated ? (
+      <ul>
+        {collection === "articles" &&
+          (sortedEntries as CollectionEntry<"articles">[]).map((entry) => {
+            const publishedAt = getPublicPublishedAt(entry);
+            return (
+              <li>
+                <article>
+                  <h2>
+                    <a href={getPublicEntryPath(entry)}>{entry.data.title}</a>
+                  </h2>
+                  <p>{entry.data.summary}</p>
+                  <p>
+                    <time datetime={publishedAt}>
+                      {formatUtcDate(publishedAt)}
+                    </time>
+                  </p>
+                  {entry.data.status === "needs-update" && (
+                    <p>
+                      <strong>{needsUpdateNotice}</strong>
+                    </p>
+                  )}
+                </article>
+              </li>
+            );
+          })}
+        {collection === "ingredients" &&
+          (sortedEntries as CollectionEntry<"ingredients">[]).map((entry) => (
+            <li>
+              <article>
+                <h2>
+                  <a href={getPublicEntryPath(entry)}>{entry.data.name}</a>
+                </h2>
+                <p>{entry.data.summary}</p>
+              </article>
+            </li>
+          ))}
+        {collection === "categories" &&
+          (sortedEntries as CollectionEntry<"categories">[]).map((entry) => (
+            <li>
+              <article>
+                <h2>
+                  <a href={getPublicEntryPath(entry)}>{entry.data.name}</a>
+                </h2>
+                <p>{entry.data.description}</p>
+              </article>
+            </li>
+          ))}
+      </ul>
+    ) : (
+      <p>{emptyMessage}</p>
+    )}
+  </main>
+</LocaleLayout>
+
+<style>
+  main {
+    max-inline-size: 40rem;
+    margin-inline: auto;
+    padding: 1rem;
+    line-height: 1.6;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li + li {
+    margin-block-start: 1.5rem;
+  }
+</style>

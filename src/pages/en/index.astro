@@ -1,5 +1,8 @@
 ---
 import LocaleLayout from "../../layouts/LocaleLayout.astro";
+import LocaleNavigation from "../../components/LocaleNavigation.astro";
+import SiteNavigation from "../../components/SiteNavigation.astro";
+import { getLocaleRoot } from "../../lib/locales";
 ---
 
 <LocaleLayout
@@ -8,9 +11,8 @@ import LocaleLayout from "../../layouts/LocaleLayout.astro";
   description="Technical placeholder page for the English locale route."
   robots="noindex,follow"
 >
+  <SiteNavigation locale="en" current="home" />
+  <LocaleNavigation currentLocale="en" targetPath={getLocaleRoot("ar")} />
   <h1>English</h1>
   <p>Technical placeholder page for the English locale route.</p>
-  <p>
-    <a href="/ar/">العربية</a>
-  </p>
 </LocaleLayout>

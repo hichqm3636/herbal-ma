@@ -4,12 +4,18 @@ import {
   getOtherLocale,
   type Locale,
 } from "../lib/locales";
-import type { PublicEntryPath } from "../lib/content-access";
+import type {
+  LocalizedCollection,
+  PublicEntryPath,
+} from "../lib/content-access";
 import type { SeoMetadata } from "../lib/seo";
+import { getCollectionIndexPath } from "../lib/routes";
 import LocaleLayout from "./LocaleLayout.astro";
+import SiteNavigation from "../components/SiteNavigation.astro";
 
 interface Props extends SeoMetadata {
   locale: Locale;
+  collection: LocalizedCollection;
   title: string;
   heading: string;
   summary: string;
@@ -19,6 +25,7 @@ interface Props extends SeoMetadata {
 
 const {
   locale,
+  collection,
   title,
   heading,
   summary,
@@ -37,13 +44,23 @@ const copy = {
     needsUpdate: "هذه الصفحة معلّمة بأنها تحتاج تحديثا.",
     counterpartName: "English",
     counterpartUnavailable: "غير متاحة",
+    breadcrumb: "مسار التنقل",
+    articles: "المقالات",
+    ingredients: "المكوّنات",
+    categories: "التصنيفات",
   },
   en: {
     needsUpdate: "This page is marked as needing an update.",
     counterpartName: "العربية",
     counterpartUnavailable: "unavailable",
+    breadcrumb: "Breadcrumb",
+    articles: "Articles",
+    ingredients: "Ingredients",
+    categories: "Categories",
   },
 }[locale];
+const collectionHref = getCollectionIndexPath(collection, locale);
+const collectionLabel = copy[collection];
 ---
 
 <LocaleLayout
@@ -55,7 +72,16 @@ const copy = {
   robots={robots}
   jsonLd={jsonLd}
 >
+  <SiteNavigation locale={locale} />
   <main>
+    <nav aria-label={copy.breadcrumb}>
+      <ol>
+        <li>
+          <a href={collectionHref}>{collectionLabel}</a>
+        </li>
+        <li aria-current="page">{heading}</li>
+      </ol>
+    </nav>
     <article>
       <header>
         <h1>{heading}</h1>
@@ -96,5 +122,18 @@ const copy = {
     margin-inline: auto;
     padding: 1rem;
     line-height: 1.6;
+  }
+
+  nav ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+  }
+
+  nav li[aria-current="page"] {
+    font-weight: 700;
   }
 </style>

@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { listPublicEntries } from "../lib/content-access";
 import type { LocalizedCollection } from "../lib/content-access";
 import { locales } from "../lib/locales";
+import { getCollectionIndexPath } from "../lib/routes";
 import {
   getAbsolutePublicEntryUrl,
   getAbsoluteSiteUrl,
@@ -48,6 +49,17 @@ export const GET: APIRoute = async ({ site }) => {
   for (const collection of PUBLIC_COLLECTIONS) {
     for (const locale of locales) {
       const entries = await listPublicEntries(collection, locale);
+      if (entries.length === 0) {
+        continue;
+      }
+
+      urls.push({
+        loc: getAbsoluteSiteUrl(
+          getCollectionIndexPath(collection, locale),
+          site,
+        ),
+      });
+
       for (const entry of entries) {
         urls.push({
           loc: getAbsolutePublicEntryUrl(entry, site),
