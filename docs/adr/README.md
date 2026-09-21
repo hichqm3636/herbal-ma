@@ -21,3 +21,4 @@ This directory contains Architecture Decision Records (ADRs) for Herbal.ma.
 | [ADR-005](ADR-005-content-source-abstraction.md) | Isolate content-source access | Accepted |
 | [ADR-006](ADR-006-ai-assisted-human-approved-publishing.md) | Require human approval for AI-assisted publishing | Accepted |
 | [ADR-007](ADR-007-root-locale-choice.md) | Use a static root locale-choice page | Accepted |
+| [ADR-008](ADR-008-public-content-url-taxonomy.md) | Use stable entity-based public content URLs | Accepted |

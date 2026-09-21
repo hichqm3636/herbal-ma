@@ -4,9 +4,9 @@ Herbal.ma is an independent, content-first knowledge platform about dietary supp
 
 ## Current status
 
-The project is in **Phase 3: bilingual routing and locale foundation**. `/`, `/ar/`, and `/en/` exist as technical placeholder pages that establish explicit locale routing, Arabic RTL, and English LTR. They are not the real Herbal.ma website.
+The project is in **Phase 4: public content rendering architecture**. `/`, `/ar/`, and `/en/` exist as technical placeholder pages that establish explicit locale routing, Arabic RTL, and English LTR. They are not the real Herbal.ma website.
 
-Public content pages are still not implemented. Committed Markdown files remain non-production fixtures and are not public. Hosting, database, authentication, CMS, and CI/CD have not been configured.
+Article, Ingredient, and Category detail routes are supported for public entries. Committed Markdown files remain non-production fixtures and are not public. Production content and finished site UX are still not implemented. Hosting, database, authentication, CMS, and CI/CD have not been configured.
 
 ## Local development
 
@@ -33,7 +33,7 @@ npm run build
 | `npm run validate` | Run format check plus the checked static build |
 | `npm run preview` | Serve the static build locally |
 
-Phase 3 establishes bilingual routing and the locale foundation only. It is not the Herbal.ma website.
+Phase 4 establishes the public-content rendering architecture only. It is not the finished Herbal.ma website.
 
 ## Documentation map
 

@@ -1,0 +1,127 @@
+---
+import type { Locale } from "../../lib/locales";
+import type { PublicCitation } from "../../lib/content-access";
+
+interface Props {
+  locale: Locale;
+  citations: PublicCitation[];
+}
+
+const { locale, citations } = Astro.props;
+
+const copy = {
+  ar: {
+    heading: "المراجع",
+    publisher: "الناشر",
+    authors: "المؤلفون",
+    institution: "المؤسسة",
+    publishedOn: "تاريخ النشر",
+    supports: "يدعم",
+    locator: "الموضع",
+    url: "الرابط",
+    doi: "DOI",
+    accessedOn: "تاريخ الاطلاع",
+  },
+  en: {
+    heading: "References",
+    publisher: "Publisher",
+    authors: "Authors",
+    institution: "Institution",
+    publishedOn: "Published",
+    supports: "Supports",
+    locator: "Locator",
+    url: "URL",
+    doi: "DOI",
+    accessedOn: "Accessed",
+  },
+}[locale];
+
+function formatUtcDate(value: string): string {
+  const date = value.includes("T")
+    ? new Date(value)
+    : new Date(`${value}T00:00:00Z`);
+
+  return new Intl.DateTimeFormat(locale, {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+---
+
+{citations.length > 0 && (
+  <section>
+    <h2>{copy.heading}</h2>
+    <ol>
+      {citations.map((citation) => (
+        <li>
+          <cite>{citation.title}</cite>
+          <p>
+            {copy.publisher}
+            {": "}
+            {citation.publisher}
+          </p>
+          {citation.authors && citation.authors.length > 0 && (
+            <p>
+              {copy.authors}
+              {": "}
+              {citation.authors.join(", ")}
+            </p>
+          )}
+          {citation.institution && (
+            <p>
+              {copy.institution}
+              {": "}
+              {citation.institution}
+            </p>
+          )}
+          {citation.publishedOn && (
+            <p>
+              {copy.publishedOn}
+              {": "}
+              <time datetime={citation.publishedOn}>
+                {formatUtcDate(citation.publishedOn)}
+              </time>
+            </p>
+          )}
+          <p>
+            {copy.supports}
+            {": "}
+            {citation.supports}
+          </p>
+          {citation.locator && (
+            <p>
+              {copy.locator}
+              {": "}
+              {citation.locator}
+            </p>
+          )}
+          {citation.url && (
+            <p>
+              {copy.url}
+              {": "}
+              <a href={citation.url}>{citation.url}</a>
+            </p>
+          )}
+          {citation.doi && (
+            <p>
+              {copy.doi}
+              {": "}
+              {citation.doi}
+            </p>
+          )}
+          {citation.accessedOn && (
+            <p>
+              {copy.accessedOn}
+              {": "}
+              <time datetime={citation.accessedOn}>
+                {formatUtcDate(citation.accessedOn)}
+              </time>
+            </p>
+          )}
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

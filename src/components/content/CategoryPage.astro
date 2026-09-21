@@ -1,0 +1,113 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getOtherLocale } from "../../lib/locales";
+import {
+  getPublicEntryPath,
+  getPublicPublishedAt,
+  getPublicTranslationCounterpart,
+  resolvePublicAttribution,
+  resolvePublicCategoryContent,
+} from "../../lib/content-access";
+import ContentPageLayout from "../../layouts/ContentPageLayout.astro";
+import EditorialAttribution from "./EditorialAttribution.astro";
+
+interface Props {
+  entry: CollectionEntry<"categories">;
+}
+
+const { entry } = Astro.props;
+const locale = entry.data.locale;
+const publishedAt = getPublicPublishedAt(entry);
+const authors = await resolvePublicAttribution(entry.data.authors, locale);
+const reviewers = await resolvePublicAttribution(entry.data.reviewers, locale);
+const { parent, children, articles, ingredients } =
+  await resolvePublicCategoryContent(entry);
+const counterpart = await getPublicTranslationCounterpart(
+  "categories",
+  entry,
+  getOtherLocale(locale),
+);
+const counterpartHref = counterpart
+  ? getPublicEntryPath(counterpart)
+  : undefined;
+
+const copy = {
+  ar: {
+    parent: "التصنيف الأصلي",
+    children: "تصنيفات فرعية",
+    articles: "المقالات",
+    ingredients: "المكوّنات",
+  },
+  en: {
+    parent: "Parent category",
+    children: "Child categories",
+    articles: "Articles",
+    ingredients: "Ingredients",
+  },
+}[locale];
+---
+
+<ContentPageLayout
+  locale={locale}
+  title={entry.data.name}
+  heading={entry.data.name}
+  summary={entry.data.description}
+  needsUpdate={entry.data.status === "needs-update"}
+  counterpartHref={counterpartHref}
+>
+  <EditorialAttribution
+    locale={locale}
+    authors={authors}
+    reviewers={reviewers}
+    publishedAt={publishedAt}
+    updatedAt={entry.data.updatedAt}
+  />
+
+  {parent && (
+    <section>
+      <h2>{copy.parent}</h2>
+      <p>
+        <a href={getPublicEntryPath(parent)}>{parent.data.name}</a>
+      </p>
+    </section>
+  )}
+
+  {children.length > 0 && (
+    <section>
+      <h2>{copy.children}</h2>
+      <ul>
+        {children.map((child) => (
+          <li>
+            <a href={getPublicEntryPath(child)}>{child.data.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {articles.length > 0 && (
+    <section>
+      <h2>{copy.articles}</h2>
+      <ul>
+        {articles.map((article) => (
+          <li>
+            <a href={getPublicEntryPath(article)}>{article.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {ingredients.length > 0 && (
+    <section>
+      <h2>{copy.ingredients}</h2>
+      <ul>
+        {ingredients.map((ingredient) => (
+          <li>
+            <a href={getPublicEntryPath(ingredient)}>{ingredient.data.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</ContentPageLayout>

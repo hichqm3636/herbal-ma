@@ -1,0 +1,125 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getOtherLocale } from "../../lib/locales";
+import {
+  getPublicEntryPath,
+  getPublicPublishedAt,
+  getPublicTranslationCounterpart,
+  resolvePublicAttribution,
+  resolvePublicCitations,
+  resolvePublicReferences,
+} from "../../lib/content-access";
+import ContentPageLayout from "../../layouts/ContentPageLayout.astro";
+import EditorialAttribution from "./EditorialAttribution.astro";
+import ReferencesList from "./ReferencesList.astro";
+
+interface Props {
+  entry: CollectionEntry<"ingredients">;
+}
+
+const { entry } = Astro.props;
+const locale = entry.data.locale;
+const publishedAt = getPublicPublishedAt(entry);
+const authors = await resolvePublicAttribution(entry.data.authors, locale);
+const reviewers = await resolvePublicAttribution(entry.data.reviewers, locale);
+const categories = await resolvePublicReferences(
+  "categories",
+  locale,
+  entry.data.categories,
+);
+const relatedIngredients = await resolvePublicReferences(
+  "ingredients",
+  locale,
+  entry.data.relatedIngredients,
+);
+const citations = await resolvePublicCitations(entry.data.sources);
+const counterpart = await getPublicTranslationCounterpart(
+  "ingredients",
+  entry,
+  getOtherLocale(locale),
+);
+const counterpartHref = counterpart
+  ? getPublicEntryPath(counterpart)
+  : undefined;
+
+const copy = {
+  ar: {
+    aliases: "أسماء بديلة",
+    commercialDisclosure: "إفصاح تجاري",
+    categories: "التصنيفات",
+    relatedIngredients: "مكوّنات ذات صلة",
+  },
+  en: {
+    aliases: "Also known as",
+    commercialDisclosure: "Commercial disclosure",
+    categories: "Categories",
+    relatedIngredients: "Related ingredients",
+  },
+}[locale];
+---
+
+<ContentPageLayout
+  locale={locale}
+  title={entry.data.name}
+  heading={entry.data.name}
+  summary={entry.data.summary}
+  needsUpdate={entry.data.status === "needs-update"}
+  counterpartHref={counterpartHref}
+>
+  {entry.data.aliases && entry.data.aliases.length > 0 && (
+    <section>
+      <h2>{copy.aliases}</h2>
+      <ul>
+        {entry.data.aliases.map((alias) => (
+          <li>{alias}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <EditorialAttribution
+    locale={locale}
+    authors={authors}
+    reviewers={reviewers}
+    publishedAt={publishedAt}
+    updatedAt={entry.data.updatedAt}
+    lastReviewedAt={entry.data.lastReviewedAt}
+  />
+
+  {entry.data.commercialDisclosure && (
+    <section>
+      <h2>{copy.commercialDisclosure}</h2>
+      <p>{entry.data.commercialDisclosure}</p>
+    </section>
+  )}
+
+  {categories.length > 0 && (
+    <section>
+      <h2>{copy.categories}</h2>
+      <ul>
+        {categories.map((category) => (
+          <li>
+            <a href={getPublicEntryPath(category)}>{category.data.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {relatedIngredients.length > 0 && (
+    <section>
+      <h2>{copy.relatedIngredients}</h2>
+      <ul>
+        {relatedIngredients.map((relatedIngredient) => (
+          <li>
+            <a href={getPublicEntryPath(relatedIngredient)}>
+              {relatedIngredient.data.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <ReferencesList locale={locale} citations={citations} />
+</ContentPageLayout>
