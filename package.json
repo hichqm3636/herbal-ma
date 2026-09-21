@@ -12,7 +12,8 @@
     "preview": "astro preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm run format:check && npm run check && npm run build"
+    "validate:content": "astro sync",
+    "validate": "npm run format:check && npm run validate:content && npm run check && npm run build"
   },
   "dependencies": {
     "astro": "^7.3.3"
@@ -21,6 +22,7 @@
     "@astrojs/check": "^0.9.10",
     "prettier": "^3.9.8",
     "prettier-plugin-astro": "^1.0.1",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "yaml": "^2.9.1"
   }
 }
