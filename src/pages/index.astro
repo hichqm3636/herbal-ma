@@ -1,13 +1,31 @@
 ---
 import LocaleLayout from "../layouts/LocaleLayout.astro";
-import { getAbsoluteSiteUrl } from "../lib/seo";
+import { getLocaleRoot } from "../lib/locales";
+import { getAbsoluteSiteUrl, type SeoAlternate } from "../lib/seo";
+
+const canonical = getAbsoluteSiteUrl("/", Astro.site);
+const alternates: SeoAlternate[] = [
+  {
+    hreflang: "ar",
+    href: getAbsoluteSiteUrl(getLocaleRoot("ar"), Astro.site),
+  },
+  {
+    hreflang: "en",
+    href: getAbsoluteSiteUrl(getLocaleRoot("en"), Astro.site),
+  },
+  {
+    hreflang: "x-default",
+    href: canonical,
+  },
+];
 ---
 
 <LocaleLayout
   locale="ar"
   title="Herbal.ma"
   description="Herbal.ma منصة معرفية تعليمية مستقلة بالعربية والإنجليزية. اختر اللغة للمتابعة."
-  canonical={getAbsoluteSiteUrl("/", Astro.site)}
+  canonical={canonical}
+  alternates={alternates}
 >
   <h1>Herbal.ma</h1>
   <p>اختر اللغة.</p>

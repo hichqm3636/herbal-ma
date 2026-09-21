@@ -4,9 +4,9 @@ Herbal.ma is an independent, content-first knowledge platform about dietary supp
 
 ## Current status
 
-The project is in **Phase 6: navigation and discovery structure**. `/`, `/ar/`, and `/en/` exist as technical placeholder pages that establish explicit locale routing, Arabic RTL, and English LTR. They are not the real Herbal.ma website. Locale roots remain temporary. Finished homepage UX is not implemented.
+The project is in **Phase 7: localized homepage and information architecture foundation**. `/` remains the language-choice gateway. `/ar/` and `/en/` are real localized homepages. They are editorial entry points, not a finished visual design.
 
-Static collection browsing now exists for Articles, Ingredients, and Categories in Arabic and English. Article, Ingredient, and Category detail routes remain supported for public entries. Committed Markdown files remain non-production fixtures and are not public. Production content still does not exist. Final visual design is not implemented. Deployment remains unconfigured. Hosting, database, authentication, CMS, and CI/CD have not been configured.
+Static collection browsing exists for Articles, Ingredients, and Categories in Arabic and English. Article, Ingredient, and Category detail routes remain supported for public entries. Committed Markdown files remain non-production fixtures and are not public. Production content still does not exist. Visual design is still intentionally minimal. Deployment remains unconfigured. Hosting, database, authentication, CMS, and CI/CD have not been configured.
 
 ## Local development
 
@@ -33,7 +33,7 @@ npm run build
 | `npm run validate` | Run format check plus the checked static build |
 | `npm run preview` | Serve the static build locally |
 
-Phase 6 establishes the navigation and discovery structure only. It is not the finished Herbal.ma website. Production content, finished homepage UX, final visual design, and deployment are still not implemented.
+Phase 7 establishes localized homepages and the homepage information architecture only. It is not the finished Herbal.ma website. Production content, final visual design, and deployment are still not implemented.
 
 ## Documentation map
 

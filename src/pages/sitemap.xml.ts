@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { listPublicEntries } from "../lib/content-access";
 import type { LocalizedCollection } from "../lib/content-access";
-import { locales } from "../lib/locales";
+import { getLocaleRoot, locales } from "../lib/locales";
 import { getCollectionIndexPath } from "../lib/routes";
 import {
   getAbsolutePublicEntryUrl,
@@ -44,7 +44,11 @@ function renderSitemap(urls: readonly SitemapUrl[]): string {
 }
 
 export const GET: APIRoute = async ({ site }) => {
-  const urls: SitemapUrl[] = [{ loc: getAbsoluteSiteUrl("/", site) }];
+  const urls: SitemapUrl[] = [
+    { loc: getAbsoluteSiteUrl("/", site) },
+    { loc: getAbsoluteSiteUrl(getLocaleRoot("ar"), site) },
+    { loc: getAbsoluteSiteUrl(getLocaleRoot("en"), site) },
+  ];
 
   for (const collection of PUBLIC_COLLECTIONS) {
     for (const locale of locales) {

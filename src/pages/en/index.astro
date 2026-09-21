@@ -1,18 +1,5 @@
 ---
-import LocaleLayout from "../../layouts/LocaleLayout.astro";
-import LocaleNavigation from "../../components/LocaleNavigation.astro";
-import SiteNavigation from "../../components/SiteNavigation.astro";
-import { getLocaleRoot } from "../../lib/locales";
+import LocaleHomePage from "../../components/content/LocaleHomePage.astro";
 ---
 
-<LocaleLayout
-  locale="en"
-  title="Herbal.ma — English"
-  description="Technical placeholder page for the English locale route."
-  robots="noindex,follow"
->
-  <SiteNavigation locale="en" current="home" />
-  <LocaleNavigation currentLocale="en" targetPath={getLocaleRoot("ar")} />
-  <h1>English</h1>
-  <p>Technical placeholder page for the English locale route.</p>
-</LocaleLayout>
+<LocaleHomePage locale="en" />

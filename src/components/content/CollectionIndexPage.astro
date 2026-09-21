@@ -6,6 +6,11 @@ import {
   getPublicPublishedAt,
   listPublicEntries,
 } from "../../lib/content-access";
+import {
+  sortArticlesByPublication,
+  sortCategoriesByName,
+  sortIngredientsByName,
+} from "../../lib/content-presentation";
 import { getOtherLocale, type Locale } from "../../lib/locales";
 import { getCollectionIndexPath } from "../../lib/routes";
 import { getAbsoluteSiteUrl, type SeoAlternate } from "../../lib/seo";
@@ -67,8 +72,7 @@ const { locale, collection } = Astro.props;
 const otherLocale = getOtherLocale(locale);
 const entries = await listPublicEntries(collection, locale);
 const counterpartEntries = await listPublicEntries(collection, otherLocale);
-const collator = new Intl.Collator(locale);
-const sortedEntries = sortListingEntries(collection, entries, collator);
+const sortedEntries = sortCurrentEntries(collection, entries, locale);
 const isPopulated = sortedEntries.length > 0;
 const counterpartIsPopulated = counterpartEntries.length > 0;
 const listingPath = getCollectionIndexPath(collection, locale);
@@ -85,87 +89,28 @@ const alternates =
     : undefined;
 const robots = isPopulated ? undefined : "noindex,follow";
 
-function compareRaw(left: string, right: string): number {
-  return left < right ? -1 : left > right ? 1 : 0;
-}
-
-function compareLocalizedText(
-  left: string,
-  right: string,
-  textCollator: Intl.Collator,
-): number {
-  const localized = textCollator.compare(left, right);
-  if (localized !== 0) {
-    return localized;
-  }
-
-  return compareRaw(left, right);
-}
-
-function sortArticles(
-  articleEntries: CollectionEntry<"articles">[],
-  textCollator: Intl.Collator,
-): CollectionEntry<"articles">[] {
-  return [...articleEntries].sort((left, right) => {
-    const publishedLeft = getPublicPublishedAt(left);
-    const publishedRight = getPublicPublishedAt(right);
-    if (publishedLeft !== publishedRight) {
-      return publishedLeft < publishedRight ? 1 : -1;
-    }
-
-    const titleCompare = compareLocalizedText(
-      left.data.title,
-      right.data.title,
-      textCollator,
-    );
-    if (titleCompare !== 0) {
-      return titleCompare;
-    }
-
-    return compareRaw(left.data.slug, right.data.slug);
-  });
-}
-
-function sortNamedEntries<C extends "ingredients" | "categories">(
-  namedEntries: CollectionEntry<C>[],
-  textCollator: Intl.Collator,
-): CollectionEntry<C>[] {
-  return [...namedEntries].sort((left, right) => {
-    const nameCompare = compareLocalizedText(
-      left.data.name,
-      right.data.name,
-      textCollator,
-    );
-    if (nameCompare !== 0) {
-      return nameCompare;
-    }
-
-    return compareRaw(left.data.slug, right.data.slug);
-  });
-}
-
-function sortListingEntries(
+function sortCurrentEntries(
   listingCollection: LocalizedCollection,
   listingEntries: Awaited<ReturnType<typeof listPublicEntries>>,
-  textCollator: Intl.Collator,
+  listingLocale: Locale,
 ) {
   if (listingCollection === "articles") {
-    return sortArticles(
+    return sortArticlesByPublication(
       listingEntries as CollectionEntry<"articles">[],
-      textCollator,
+      listingLocale,
     );
   }
 
   if (listingCollection === "ingredients") {
-    return sortNamedEntries(
+    return sortIngredientsByName(
       listingEntries as CollectionEntry<"ingredients">[],
-      textCollator,
+      listingLocale,
     );
   }
 
-  return sortNamedEntries(
+  return sortCategoriesByName(
     listingEntries as CollectionEntry<"categories">[],
-    textCollator,
+    listingLocale,
   );
 }
 

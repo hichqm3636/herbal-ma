@@ -1,0 +1,207 @@
+---
+import {
+  getPublicEntryPath,
+  getPublicPublishedAt,
+  listPublicEntries,
+} from "../../lib/content-access";
+import { sortArticlesByPublication } from "../../lib/content-presentation";
+import { getLocaleRoot, getOtherLocale, type Locale } from "../../lib/locales";
+import { getCollectionIndexPath } from "../../lib/routes";
+import { getAbsoluteSiteUrl, type SeoAlternate } from "../../lib/seo";
+import LocaleLayout from "../../layouts/LocaleLayout.astro";
+import LocaleNavigation from "../LocaleNavigation.astro";
+import SiteNavigation from "../SiteNavigation.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const homeCopy = {
+  ar: {
+    title: "Herbal.ma — معرفة حول الأعشاب والمكمّلات والتغذية",
+    description:
+      "منصة معرفية تعليمية حول الأعشاب والمكمّلات الغذائية والتغذية والعافية، مع مقالات ومعلومات منظّمة عن المكوّنات والموضوعات.",
+    intro:
+      "منصة معرفية تعليمية حول الأعشاب والمكمّلات الغذائية والتغذية والعافية. تساعدك على استكشاف المقالات والمكوّنات والموضوعات بطريقة واضحة ومنظمة.",
+    exploreHeading: "استكشف Herbal.ma",
+    articlesLabel: "المقالات",
+    articlesText:
+      "اقرأ مقالات تعليمية حول الأعشاب والمكمّلات والتغذية والعافية.",
+    ingredientsLabel: "المكوّنات",
+    ingredientsText:
+      "تعرّف على الأعشاب والعناصر الغذائية والمركّبات التي يغطيها Herbal.ma.",
+    categoriesLabel: "التصنيفات",
+    categoriesText: "استكشف المحتوى حسب الموضوع.",
+    latestHeading: "أحدث المقالات",
+    viewAll: "عرض جميع المقالات",
+    needsUpdate: "يحتاج إلى تحديث",
+  },
+  en: {
+    title: "Herbal.ma — Herbs, Supplements, Nutrition & Wellness",
+    description:
+      "An educational knowledge platform about herbs, dietary supplements, nutrition, wellness, ingredients, and related topics.",
+    intro:
+      "An educational knowledge platform about herbs, dietary supplements, nutrition, and wellness. Explore articles, ingredients, and topics in a clear, structured way.",
+    exploreHeading: "Explore Herbal.ma",
+    articlesLabel: "Articles",
+    articlesText:
+      "Read educational articles about herbs, dietary supplements, nutrition, and wellness.",
+    ingredientsLabel: "Ingredients",
+    ingredientsText:
+      "Explore herbs, nutrients, and compounds covered by Herbal.ma.",
+    categoriesLabel: "Categories",
+    categoriesText: "Browse content by topic.",
+    latestHeading: "Latest Articles",
+    viewAll: "View all Articles",
+    needsUpdate: "Needs update",
+  },
+} as const;
+
+const { locale } = Astro.props;
+const otherLocale = getOtherLocale(locale);
+const copy = homeCopy[locale];
+const articlesPath = getCollectionIndexPath("articles", locale);
+const ingredientsPath = getCollectionIndexPath("ingredients", locale);
+const categoriesPath = getCollectionIndexPath("categories", locale);
+const latestArticles = sortArticlesByPublication(
+  await listPublicEntries("articles", locale),
+  locale,
+).slice(0, 3);
+const canonical = getAbsoluteSiteUrl(getLocaleRoot(locale), Astro.site);
+const alternates = getHomepageLanguageCluster(Astro.site);
+
+function getHomepageLanguageCluster(site: URL | undefined): SeoAlternate[] {
+  return [
+    {
+      hreflang: "ar",
+      href: getAbsoluteSiteUrl(getLocaleRoot("ar"), site),
+    },
+    {
+      hreflang: "en",
+      href: getAbsoluteSiteUrl(getLocaleRoot("en"), site),
+    },
+    {
+      hreflang: "x-default",
+      href: getAbsoluteSiteUrl("/", site),
+    },
+  ];
+}
+
+function formatUtcDate(value: string): string {
+  const date = value.includes("T")
+    ? new Date(value)
+    : new Date(`${value}T00:00:00Z`);
+
+  return new Intl.DateTimeFormat(locale, {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
+const exploreItems = [
+  {
+    href: articlesPath,
+    label: copy.articlesLabel,
+    text: copy.articlesText,
+  },
+  {
+    href: ingredientsPath,
+    label: copy.ingredientsLabel,
+    text: copy.ingredientsText,
+  },
+  {
+    href: categoriesPath,
+    label: copy.categoriesLabel,
+    text: copy.categoriesText,
+  },
+];
+---
+
+<LocaleLayout
+  locale={locale}
+  title={copy.title}
+  description={copy.description}
+  canonical={canonical}
+  alternates={alternates}
+>
+  <SiteNavigation locale={locale} current="home" />
+  <LocaleNavigation
+    currentLocale={locale}
+    targetPath={getLocaleRoot(otherLocale)}
+  />
+  <main>
+    <h1>Herbal.ma</h1>
+    <p>{copy.intro}</p>
+    <section>
+      <h2>{copy.exploreHeading}</h2>
+      <ul>
+        {exploreItems.map((item) => (
+          <li>
+            <h3>
+              <a href={item.href}>{item.label}</a>
+            </h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+    {latestArticles.length > 0 && (
+      <section>
+        <h2>{copy.latestHeading}</h2>
+        <ul>
+          {latestArticles.map((entry) => {
+            const publishedAt = getPublicPublishedAt(entry);
+            return (
+              <li>
+                <article>
+                  <h3>
+                    <a href={getPublicEntryPath(entry)}>{entry.data.title}</a>
+                  </h3>
+                  <p>{entry.data.summary}</p>
+                  <p>
+                    <time datetime={publishedAt}>
+                      {formatUtcDate(publishedAt)}
+                    </time>
+                  </p>
+                  {entry.data.status === "needs-update" && (
+                    <p>
+                      <strong>{copy.needsUpdate}</strong>
+                    </p>
+                  )}
+                </article>
+              </li>
+            );
+          })}
+        </ul>
+        <p>
+          <a href={articlesPath}>{copy.viewAll}</a>
+        </p>
+      </section>
+    )}
+  </main>
+</LocaleLayout>
+
+<style>
+  main {
+    max-inline-size: 40rem;
+    margin-inline: auto;
+    padding: 1rem;
+    line-height: 1.6;
+  }
+
+  section + section {
+    margin-block-start: 2rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li + li {
+    margin-block-start: 1.25rem;
+  }
+</style>
