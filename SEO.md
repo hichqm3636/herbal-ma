@@ -27,7 +27,7 @@ Published Arabic and English counterparts linked by `translationKey` should decl
 
 Only published, indexable counterparts may appear in a hreflang set. Hreflang relationships must use absolute canonical URLs and must not be inferred solely from similar slugs.
 
-Whether an `x-default` target is useful depends on the still-unresolved root URL behavior; it is not fixed in Phase 0.
+The site root `/` is a static locale-choice page. Arabic is presented first and English second. There is no automatic redirect from `/` to a locale root. Whether an `x-default` target is useful remains deferred to the SEO implementation phase.
 
 ## Sitemap principles
 

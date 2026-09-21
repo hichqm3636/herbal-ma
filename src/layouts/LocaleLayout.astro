@@ -1,0 +1,23 @@
+---
+import { getLocaleDirection, type Locale } from "../lib/locales";
+
+interface Props {
+  locale: Locale;
+  title: string;
+}
+
+const { locale, title } = Astro.props;
+const dir = getLocaleDirection(locale);
+---
+
+<!doctype html>
+<html lang={locale} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
