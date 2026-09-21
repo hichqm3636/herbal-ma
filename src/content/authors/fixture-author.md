@@ -1,15 +1,13 @@
 ---
-name: Fixture Author
-credentials: Non-production editorial placeholder.
-disclosure: This identity exists only to validate the content architecture.
+displayName: Fixture Author
 profiles:
   ar:
     displayName: كاتب تجريبي
-    bio: هوية تجريبية غير إنتاجية للتحقق من بنية المحتوى.
+    biography: هوية تجريبية غير إنتاجية للتحقق من بنية المحتوى.
     role: كاتب
   en:
     displayName: Fixture Author
-    bio: Non-production fixture identity for content-architecture validation.
+    biography: Non-production fixture identity for content-architecture validation.
     role: Author
 ---
 

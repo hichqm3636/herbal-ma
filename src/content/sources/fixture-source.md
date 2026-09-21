@@ -1,10 +1,10 @@
 ---
 title: Fixture Source
 publisher: Example Publisher
-type: example
+type: other
 url: https://example.com/fixture-source
-locale: en
 accessedOn: "2026-09-21"
+locale: en
 notes: Reserved example-domain URL. Non-production fixture evidence record.
 ---
 

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
 
 const LOCALES = new Set(["ar", "en"]);
+const ASCII_KEY = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const APPROVED_OR_LATER = new Set([
   "approved",
   "published",
@@ -22,7 +23,8 @@ const COLLECTIONS = {
 const RELATIONSHIPS = {
   articles: [
     { field: "authors", collection: "authors", sameLocale: false },
-    { field: "reviewer", collection: "authors", sameLocale: false },
+    { field: "reviewers", collection: "authors", sameLocale: false },
+    { field: "approvedBy", collection: "authors", sameLocale: false },
     { field: "categories", collection: "categories", sameLocale: true },
     { field: "ingredients", collection: "ingredients", sameLocale: true },
     {
@@ -32,13 +34,16 @@ const RELATIONSHIPS = {
       rejectSelf: true,
     },
     {
-      field: "citations",
+      field: "sources",
       collection: "sources",
       sameLocale: false,
       nestedField: "source",
     },
   ],
   ingredients: [
+    { field: "authors", collection: "authors", sameLocale: false },
+    { field: "reviewers", collection: "authors", sameLocale: false },
+    { field: "approvedBy", collection: "authors", sameLocale: false },
     { field: "categories", collection: "categories", sameLocale: true },
     {
       field: "relatedIngredients",
@@ -46,9 +51,17 @@ const RELATIONSHIPS = {
       sameLocale: true,
       rejectSelf: true,
     },
-    { field: "sources", collection: "sources", sameLocale: false },
+    {
+      field: "sources",
+      collection: "sources",
+      sameLocale: false,
+      nestedField: "source",
+    },
   ],
   categories: [
+    { field: "authors", collection: "authors", sameLocale: false },
+    { field: "reviewers", collection: "authors", sameLocale: false },
+    { field: "approvedBy", collection: "authors", sameLocale: false },
     {
       field: "parent",
       collection: "categories",
@@ -64,19 +77,16 @@ function collectionEntryId(relativePath) {
 }
 
 function splitMarkdown(raw) {
-  const normalized = raw.replace(/\r\n/g, "\n");
-  if (!normalized.startsWith("---\n") && normalized !== "---") {
-    return { data: null, body: normalized, hasFrontmatter: false };
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
+  if (!match) {
+    return { data: null, body: raw, hasFrontmatter: false };
   }
 
-  const end = normalized.indexOf("\n---", 3);
-  if (end === -1) {
-    return { data: null, body: normalized, hasFrontmatter: false };
-  }
-
-  const yamlText = normalized.slice(4, end);
-  const body = normalized.slice(end + 4).replace(/^\n/, "");
-  return { yamlText, body, hasFrontmatter: true };
+  return {
+    yamlText: match[1],
+    body: raw.slice(match[0].length),
+    hasFrontmatter: true,
+  };
 }
 
 function walkMarkdown(directory) {
@@ -252,20 +262,29 @@ function validateGraph(contentDir) {
             }
           }
         }
-      } else if (entry.relativePath.includes("/")) {
-        errors.push(
-          `${prefix} Author and Source entries must use a language-neutral ID of the form example-key`,
-        );
+      } else {
+        if (entry.relativePath.includes("/")) {
+          errors.push(
+            `${prefix} Author and Source entries must use a language-neutral ID of the form example-key`,
+          );
+        }
+        if (!ASCII_KEY.test(entry.id)) {
+          errors.push(
+            `${prefix} Author and Source filenames must be stable ASCII kebab-case IDs`,
+          );
+        }
       }
 
       const status = entry.data.status;
       const riskLevel = entry.data.riskLevel;
       if (
+        (entry.collection === "articles" ||
+          entry.collection === "ingredients") &&
         (riskLevel === "medium" || riskLevel === "high") &&
         APPROVED_OR_LATER.has(status)
       ) {
         const authorIds = referenceIds(entry.data.authors);
-        const reviewerIds = referenceIds(entry.data.reviewer);
+        const reviewerIds = referenceIds(entry.data.reviewers);
         if (reviewerIds.length === 0) {
           errors.push(
             `${prefix} medium/high approved-or-later content requires a reviewer distinct from its authors`,
@@ -295,6 +314,16 @@ function validateGraph(contentDir) {
             continue;
           }
           seen.add(targetId);
+
+          if (
+            (relationship.collection === "authors" ||
+              relationship.collection === "sources") &&
+            targetId.includes("/")
+          ) {
+            errors.push(
+              `${prefix} ${relationship.field} "${targetId}" must be a language-neutral ${relationship.collection} ID`,
+            );
+          }
 
           if (!ids[relationship.collection].has(targetId)) {
             errors.push(

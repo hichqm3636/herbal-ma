@@ -1,17 +1,18 @@
 ---
 locale: ar
 translationKey: fixture-ingredient
-name: مكوّن تجريبي
-namingContext: اسم تجريبي غير إنتاجي فقط.
-summary: سجل مكوّن تجريبي للتحقق من البنية. لا يصف استعمالا علاجيا ولا يقدم جرعات.
 slug: fixture-ingredient
+name: مكوّن تجريبي
+summary: سجل مكوّن تجريبي للتحقق من البنية. لا يصف استعمالا علاجيا ولا يقدم جرعات.
 status: draft
 riskLevel: low
-updatedAt: "2026-09-21"
+authors:
+  - fixture-author
 categories:
   - ar/fixture-category
 sources:
-  - fixture-source
+  - source: fixture-source
+    supports: مرجع تجريبي غير إنتاجي لبنية الاستشهاد فقط.
 ---
 
 هذا مكوّن تجريبي غير إنتاجي. لا يقدم ادعاءات طبية أو نصائح جرعات أو توصيات منتجات.

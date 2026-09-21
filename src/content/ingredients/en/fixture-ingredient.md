@@ -1,17 +1,18 @@
 ---
 locale: en
 translationKey: fixture-ingredient
-name: Fixture ingredient
-namingContext: Non-production placeholder name only.
-summary: A fixture ingredient record used to validate the content architecture. It does not describe therapeutic use or dosage.
 slug: fixture-ingredient
+name: Fixture ingredient
+summary: A fixture ingredient record used to validate the content architecture. It does not describe therapeutic use or dosage.
 status: draft
 riskLevel: low
-updatedAt: "2026-09-21"
+authors:
+  - fixture-author
 categories:
   - en/fixture-category
 sources:
-  - fixture-source
+  - source: fixture-source
+    supports: Non-production fixture citation used only to demonstrate the citation structure.
 ---
 
 This is a non-production fixture ingredient. It contains no medical claims, dosage advice, or product recommendations.

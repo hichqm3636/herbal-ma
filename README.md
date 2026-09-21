@@ -28,8 +28,9 @@ npm run build
 | `npm install` | Install the project dependencies |
 | `npm run dev` | Start the local development server |
 | `npm run validate:content` | Run Astro sync, collection schema validation, and content-integrity checks |
-| `npm run validate` | Run format check, content validation, `astro check`, and the production build |
-| `npm run build` | Emit static HTML to `dist/` |
+| `npm run check` | Run content validation, then `astro check` |
+| `npm run build` | Run the checked workflow, then emit static HTML to `dist/` |
+| `npm run validate` | Run format check plus the checked static build |
 | `npm run preview` | Serve the static build locally |
 
 Phase 2 establishes the content architecture only. It is not the Herbal.ma website.
