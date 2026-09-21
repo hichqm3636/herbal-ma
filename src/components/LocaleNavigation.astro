@@ -1,0 +1,40 @@
+---
+import {
+  getLocaleDirection,
+  getOtherLocale,
+  type Locale,
+} from "../lib/locales";
+import type { CollectionIndexPath } from "../lib/routes";
+
+interface Props {
+  currentLocale: Locale;
+  targetPath: CollectionIndexPath | "/ar/" | "/en/";
+}
+
+const { currentLocale, targetPath } = Astro.props;
+const otherLocale = getOtherLocale(currentLocale);
+const otherDirection = getLocaleDirection(otherLocale);
+const copy = {
+  ar: {
+    label: "اللغة",
+    link: "English",
+  },
+  en: {
+    label: "Language",
+    link: "العربية",
+  },
+}[currentLocale];
+---
+
+<nav aria-label={copy.label}>
+  <a href={targetPath} lang={otherLocale} dir={otherDirection}>
+    {copy.link}
+  </a>
+</nav>
+
+<style>
+  nav {
+    padding-inline: 1rem;
+    padding-block-end: 0.75rem;
+  }
+</style>

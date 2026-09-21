@@ -1,0 +1,89 @@
+---
+import type { LocalizedCollection } from "../lib/content-access";
+import type { Locale } from "../lib/locales";
+import { getLocaleRoot } from "../lib/locales";
+import { getCollectionIndexPath } from "../lib/routes";
+
+export type SiteNavigationCurrent = "home" | LocalizedCollection;
+
+interface Props {
+  locale: Locale;
+  current?: SiteNavigationCurrent;
+}
+
+const { locale, current } = Astro.props;
+
+const copy = {
+  ar: {
+    label: "التنقل في الموقع",
+    home: "الرئيسية",
+    articles: "المقالات",
+    ingredients: "المكوّنات",
+    categories: "التصنيفات",
+  },
+  en: {
+    label: "Site navigation",
+    home: "Home",
+    articles: "Articles",
+    ingredients: "Ingredients",
+    categories: "Categories",
+  },
+}[locale];
+
+const items = [
+  {
+    id: "home" as const,
+    href: getLocaleRoot(locale),
+    label: copy.home,
+  },
+  {
+    id: "articles" as const,
+    href: getCollectionIndexPath("articles", locale),
+    label: copy.articles,
+  },
+  {
+    id: "ingredients" as const,
+    href: getCollectionIndexPath("ingredients", locale),
+    label: copy.ingredients,
+  },
+  {
+    id: "categories" as const,
+    href: getCollectionIndexPath("categories", locale),
+    label: copy.categories,
+  },
+];
+---
+
+<nav aria-label={copy.label}>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          aria-current={current === item.id ? "page" : undefined}
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  nav {
+    padding: 1rem;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a[aria-current="page"] {
+    font-weight: 700;
+  }
+</style>
