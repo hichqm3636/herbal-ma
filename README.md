@@ -4,7 +4,9 @@ Herbal.ma is an independent, content-first knowledge platform about dietary supp
 
 ## Current status
 
-The project is in **Phase 1: technical skeleton**. A minimal Astro + TypeScript foundation exists so the repository can install, type-check, format, and emit static HTML. The real Herbal.ma website, content system, language routes, layouts, and production content have not been built. Hosting, database, authentication, CMS, and CI/CD have not been configured.
+The project is in **Phase 2: content architecture**. Typed Markdown content collections, collection schemas, and build-time content-integrity validation exist. The committed Markdown files are non-production fixtures used only to exercise that architecture.
+
+The public content website is not implemented. There is no homepage, no `/ar/` or `/en/` content routes, and no production copy. Hosting, database, authentication, CMS, and CI/CD have not been configured.
 
 ## Local development
 
@@ -16,19 +18,22 @@ Requirements:
 ```bash
 npm install
 npm run dev
+npm run validate:content
 npm run validate
 npm run build
 ```
 
 | Command | Purpose |
 | --- | --- |
-| `npm install` | Install the Phase 1 dependencies |
+| `npm install` | Install the project dependencies |
 | `npm run dev` | Start the local development server |
-| `npm run validate` | Run format check, `astro check`, and the production build |
-| `npm run build` | Emit static HTML to `dist/` |
+| `npm run validate:content` | Run Astro sync, collection schema validation, and content-integrity checks |
+| `npm run check` | Run content validation, then `astro check` |
+| `npm run build` | Run the checked workflow, then emit static HTML to `dist/` |
+| `npm run validate` | Run format check plus the checked static build |
 | `npm run preview` | Serve the static build locally |
 
-Phase 1 is a buildable technical fixture only. It is not the Herbal.ma website.
+Phase 2 establishes the content architecture only. It is not the Herbal.ma website.
 
 ## Documentation map
 
