@@ -4,11 +4,11 @@ import {
   getOtherLocale,
   type Locale,
 } from "../lib/locales";
-import type { CollectionIndexPath } from "../lib/routes";
+import type { CollectionIndexPath, SearchPath } from "../lib/routes";
 
 interface Props {
   currentLocale: Locale;
-  targetPath: CollectionIndexPath | "/ar/" | "/en/";
+  targetPath: CollectionIndexPath | SearchPath | "/ar/" | "/en/";
 }
 
 const { currentLocale, targetPath } = Astro.props;

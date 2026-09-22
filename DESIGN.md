@@ -29,7 +29,8 @@ lifestyle blog, or an advertising funnel.
 4. Botanical green is a restrained accent, not a brand wash.
 5. Content sits on white surfaces with subtle borders.
 6. No decorative imagery, icon sets, gradients, glassmorphism, or heavy shadows.
-7. Nothing depends on JavaScript or on animation.
+7. Reading, navigation, and content depend on no JavaScript and no animation.
+   Static Search is the single approved exception.
 8. Arabic and English are equally intentional; neither is an afterthought.
 9. Visual hierarchy must not imply medical authority or commercial endorsement.
 
@@ -157,6 +158,20 @@ warm needs-update palette. The same class pair is used on the Articles listing, 
 homepage article preview, and the detail page notice, so the state looks identical
 everywhere. It hugs its text rather than filling the container.
 
+## Search
+
+The Search page reuses the reading-width shell, `.content-card`, and
+`.status-note` treatments, so a result looks like every other Herbal.ma card.
+Only the form and the result type label are new: `.search-form` stacks a visible
+label above a bordered input and a bordered submit control. The submit control
+is a calm outlined surface like the language-gateway choices, not a filled
+commercial button. There is no icon, no modal, and no command palette.
+
+These rules are scoped inside `SearchPage.astro` because they belong to one
+page. The single exception is `.search-result__type`, which is global, because
+result cards are created by the client script and never carry the scoped
+component attribute.
+
 ## Article prose
 
 Rendered Markdown is wrapped in `.prose` at reading width. The global prose rules
@@ -231,7 +246,8 @@ wrapping, and Arabic clipping.
 - State is never conveyed by color alone, by hover alone, or by an icon.
 - Transitions are limited to color, background, and border, and are disabled under
   `prefers-reduced-motion: reduce`.
-- No interaction requires JavaScript.
+- No interaction outside the Search page requires JavaScript. Search matching
+  runs in page-local JavaScript and states that requirement in `noscript`.
 
 ## Global versus scoped CSS
 
@@ -258,7 +274,8 @@ The following are outside Phase 8 and are not implemented:
   Herbal.ma wordmark remains text;
 - custom or self-hosted typefaces;
 - the `404` page visual treatment, which is handled separately from this rollout;
-- a site footer, search interface, pagination, and table of contents;
-- reading progress, social sharing, and any client-side interaction;
+- a site footer, pagination, and table of contents;
+- reading progress, social sharing, and client-side interaction outside the
+  Search page;
 - Open Graph, Twitter Card, and social image design;
 - animation and entrance motion.

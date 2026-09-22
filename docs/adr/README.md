@@ -23,3 +23,4 @@ This directory contains Architecture Decision Records (ADRs) for Herbal.ma.
 | [ADR-007](ADR-007-root-locale-choice.md) | Use a static root locale-choice page | Accepted |
 | [ADR-008](ADR-008-public-content-url-taxonomy.md) | Use stable entity-based public content URLs | Accepted |
 | [ADR-009](ADR-009-localized-homepage-language-cluster.md) | Use localized homepages in a homepage language cluster | Accepted |
+| [ADR-010](ADR-010-static-client-search.md) | Use static client-side search | Accepted |

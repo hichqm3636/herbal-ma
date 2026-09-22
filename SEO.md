@@ -64,6 +64,21 @@ Populated listings are indexable, emit an absolute self-canonical URL for that c
 
 Locale roots `/ar/` and `/en/` include structural site and language navigation. Phase 7 makes them indexable public homepages; see the homepage language cluster above.
 
+## Phase 11 search pages
+
+Search exists at two localized URLs:
+
+- `/ar/search/`
+- `/en/search/`
+
+Both are `noindex,follow`. Search is a discovery tool, not an editorial publication, and query result pages must not become thin keyword pages.
+
+Each page emits an absolute self-canonical URL for its own locale — `https://herbal.ma/ar/search/` or `https://herbal.ma/en/search/` — and the reciprocal `hreflang="ar"` and `hreflang="en"` pair for those two URLs. Phase 11 emits no `hreflang="x-default"`; that remains limited to the Phase 7 homepage language cluster.
+
+Query-parameter URLs such as `/ar/search/?q=فيتامين` are not separate documents. They declare the same query-free locale Search URL as canonical, so query variants consolidate rather than multiply.
+
+Search pages are excluded from the sitemap, consistent with the rule that sitemaps contain only canonical, public, indexable URLs. They emit no JSON-LD. The language control on a Search page points at the other locale's Search URL and does not carry the query.
+
 ## Language-prefixed URLs
 
 - All indexable Arabic content belongs under `/ar/`.
@@ -86,7 +101,7 @@ Canonicalization is used to consolidate genuine duplicates, not to conceal weak,
 
 Published Arabic and English counterparts linked by `translationKey` should declare reciprocal `hreflang="ar"` and `hreflang="en"` annotations. Each set includes the current page when both counterparts are public.
 
-Only published, indexable counterparts may appear in a hreflang set. Hreflang relationships must use absolute canonical URLs and must not be inferred solely from similar slugs.
+On public editorial, content, and collection pages, only published, indexable counterparts may appear in a hreflang set. Localized Search pages are the explicit noindex exception defined in the Phase 11 Search section. Hreflang relationships must use absolute canonical URLs and must not be inferred solely from similar slugs.
 
 The site root `/` is a static locale-choice page. Arabic is presented first and English second. There is no automatic redirect from `/` to a locale root. `/` participates in the homepage alternate cluster and is the `hreflang="x-default"` target for that cluster only.
 
