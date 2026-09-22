@@ -4,7 +4,7 @@ translationKey: common-units-on-supplement-labels
 slug: common-units-on-supplement-labels
 title: وحدات القياس الشائعة على ملصقات المكمّلات
 summary: شرح تعليمي للميليغرام والميكروغرام والوحدة الدولية والنسبة المئوية للقيمة اليومية بوصفها اصطلاحات على الملصق، مع أمثلة أميركية حيث تنطبق، من دون تحويل تلك الأرقام إلى جرعة شخصية.
-status: approved
+status: published
 riskLevel: medium
 authors:
   - hicham
@@ -12,6 +12,7 @@ reviewers:
   - kholoud-fdil
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
+publishedAt: "2026-09-22T11:53:46Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - ar/labels-and-formulations

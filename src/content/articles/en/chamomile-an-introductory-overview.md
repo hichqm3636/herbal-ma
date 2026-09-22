@@ -4,12 +4,13 @@ translationKey: chamomile-an-introductory-overview
 slug: chamomile-an-introductory-overview
 title: "Chamomile: an introductory overview"
 summary: An identity-focused introduction to chamomile as a common name that can refer to more than one plant, and as a subject people meet in foods and herbal infusions, without treatment claims.
-status: approved
+status: published
 riskLevel: low
 authors:
   - hicham
 approvedBy: hicham
 approvedAt: "2026-09-22T11:41:00Z"
+publishedAt: "2026-09-22T11:53:46Z"
 categories:
   - en/herbs-and-plants
 ingredients:
