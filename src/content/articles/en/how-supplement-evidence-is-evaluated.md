@@ -13,9 +13,12 @@ reviewers:
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
 publishedAt: "2026-09-22T11:53:46Z"
+updatedAt: "2026-09-22T12:26:50Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - en/understanding-supplements
+relatedArticles:
+  - en/what-dietary-supplements-are
 sources:
   - source: nccih-types-of-research
     supports: Distinguishes basic research, clinical trials, systematic reviews, and meta-analyses, and states that well-planned clinical trials give the clearest information about whether a change is effective and safe in humans.

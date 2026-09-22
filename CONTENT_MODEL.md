@@ -122,6 +122,8 @@ A Source is evidence metadata, not a guarantee of evidence quality. Suitability 
 
 Relationships must be meaningful and reviewable. They are not permission to generate large numbers of automatic links.
 
+Category membership does not automatically imply a related link. `relatedArticles` and `relatedIngredients` are manually selected editorial relationships. Each one must represent a useful next educational step from the current page. Relationships may be directional; reciprocity is not automatic. Public reading paths must use same-locale targets that are themselves public (`published` or `needs-update`). Do not generate related links merely for SEO density. AI may propose internal-link candidates, but a human must review the exact relationship change before publication or merge.
+
 ## Lifecycle and status model
 
 The conceptual lifecycle is:

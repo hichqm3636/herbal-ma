@@ -13,9 +13,13 @@ reviewers:
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
 publishedAt: "2026-09-22T11:53:46Z"
+updatedAt: "2026-09-22T12:26:50Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - en/labels-and-formulations
+relatedArticles:
+  - en/common-units-on-supplement-labels
+  - en/how-supplement-evidence-is-evaluated
 sources:
   - source: fda-dietary-supplement-labeling-guide-chapter-iv
     supports: Describes the U.S. Supplement Facts panel, including serving size, servings per container, and the requirement to list names and quantities of dietary ingredients.

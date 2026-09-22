@@ -13,9 +13,12 @@ reviewers:
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
 publishedAt: "2026-09-22T11:53:46Z"
+updatedAt: "2026-09-22T12:26:50Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - en/labels-and-formulations
+relatedArticles:
+  - en/how-to-read-a-supplement-label
 sources:
   - source: fda-dietary-supplement-labeling-guide-chapter-iv
     supports: States that U.S. Supplement Facts panels must list quantities of dietary ingredients and must use the measurement units given for those nutrients' Daily Values, such as milligrams for vitamin C.
