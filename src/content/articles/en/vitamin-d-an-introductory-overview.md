@@ -4,12 +4,13 @@ translationKey: vitamin-d-an-introductory-overview
 slug: vitamin-d-an-introductory-overview
 title: "Vitamin D: an introductory overview"
 summary: An identity-focused introduction to vitamin D as a nutrient name readers meet in foods, fortified products, and supplements, including the fact that more than one chemical form exists.
-status: approved
+status: published
 riskLevel: low
 authors:
   - hicham
 approvedBy: hicham
 approvedAt: "2026-09-22T11:41:00Z"
+publishedAt: "2026-09-22T11:53:46Z"
 categories:
   - en/nutrients
 ingredients:

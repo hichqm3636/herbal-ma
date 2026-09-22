@@ -4,7 +4,7 @@ translationKey: how-supplement-evidence-is-evaluated
 slug: how-supplement-evidence-is-evaluated
 title: How evidence about supplements is evaluated
 summary: A general-reader explanation of the kinds of information people encounter about supplements — from traditional use to laboratory work, human studies, and evidence reviews — and why a single study or a marketing badge rarely settles a question.
-status: approved
+status: published
 riskLevel: medium
 authors:
   - hicham
@@ -12,6 +12,7 @@ reviewers:
   - kholoud-fdil
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
+publishedAt: "2026-09-22T11:53:46Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - en/understanding-supplements

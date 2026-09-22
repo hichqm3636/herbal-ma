@@ -4,7 +4,7 @@ translationKey: how-to-read-a-supplement-label
 slug: how-to-read-a-supplement-label
 title: How to read a dietary supplement label
 summary: A guided walk through the parts of a supplement label, using official U.S. and EU examples as jurisdiction-specific illustrations, without recommending a product, a brand, or a personal amount.
-status: approved
+status: published
 riskLevel: medium
 authors:
   - hicham
@@ -12,6 +12,7 @@ reviewers:
   - kholoud-fdil
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
+publishedAt: "2026-09-22T11:53:46Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - en/labels-and-formulations

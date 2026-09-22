@@ -4,12 +4,13 @@ translationKey: what-dietary-supplements-are
 slug: what-dietary-supplements-are
 title: ما هي المكمّلات الغذائية؟
 summary: شرح تعليمي لمعنى عبارة المكمّلات الغذائية، ولماذا تختلف التعريفات القانونية بين الدول، وكيف يستخدم Herbal.ma المصطلح — دون نصيحة علاجية أو توصية بالشراء.
-status: approved
+status: published
 riskLevel: low
 authors:
   - hicham
 approvedBy: hicham
 approvedAt: "2026-09-22T11:41:00Z"
+publishedAt: "2026-09-22T11:53:46Z"
 categories:
   - ar/understanding-supplements
 sources:

@@ -4,12 +4,13 @@ translationKey: chamomile-an-introductory-overview
 slug: chamomile-an-introductory-overview
 title: "البابونج: مدخل تعريفي"
 summary: مدخل تعريفي إلى البابونج بوصفه اسما شائعا قد يشير إلى أكثر من نبات، وبوصفه موضوعا يلتقيه الناس في الأغذية والمشروبات العشبية، من دون ادعاءات علاجية.
-status: approved
+status: published
 riskLevel: low
 authors:
   - hicham
 approvedBy: hicham
 approvedAt: "2026-09-22T11:41:00Z"
+publishedAt: "2026-09-22T11:53:46Z"
 categories:
   - ar/herbs-and-plants
 ingredients:
