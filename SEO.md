@@ -101,7 +101,7 @@ Canonicalization is used to consolidate genuine duplicates, not to conceal weak,
 
 Published Arabic and English counterparts linked by `translationKey` should declare reciprocal `hreflang="ar"` and `hreflang="en"` annotations. Each set includes the current page when both counterparts are public.
 
-Only published, indexable counterparts may appear in a hreflang set. Hreflang relationships must use absolute canonical URLs and must not be inferred solely from similar slugs.
+On public editorial, content, and collection pages, only published, indexable counterparts may appear in a hreflang set. Localized Search pages are the explicit noindex exception defined in the Phase 11 Search section. Hreflang relationships must use absolute canonical URLs and must not be inferred solely from similar slugs.
 
 The site root `/` is a static locale-choice page. Arabic is presented first and English second. There is no automatic redirect from `/` to a locale root. `/` participates in the homepage alternate cluster and is the `hreflang="x-default"` target for that cluster only.
 
