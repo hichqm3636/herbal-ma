@@ -18,7 +18,9 @@ This document records the approved architectural direction for Herbal.ma. It def
 | CMS in v1 | None |
 | Notion runtime dependency | Prohibited |
 | Source control | GitHub repository `hichqm3636/herbal-ma` |
-| Intended hosting | Vercel |
+| Production hosting | Vercel |
+| Deployment mechanism | Vercel Git integration |
+| Repository CI | Validates only; never deploys |
 | Public languages | Arabic primary; English secondary |
 
 Astro and TypeScript are accepted choices, but Astro initialization, package selection, project layout, and build configuration belong to a later phase.
@@ -71,10 +73,22 @@ Herbal.ma must not share their databases, authentication, or business logic. Fut
 ## Environment concept
 
 - **Local:** a developer or agent works and validates changes locally. Local work must not depend on production services.
-- **Preview:** a reviewable, non-production build used for editorial and technical verification before release. Preview is not an editorial-approval bypass.
-- **Production:** the public, approved static site hosted on the intended production platform.
+- **Preview:** a reviewable, non-production Vercel deployment from a pull request or branch. Preview is not an editorial-approval bypass.
+- **Production:** the public static site deployed by Vercel from `main`. The canonical hostname remains `https://herbal.ma`.
 
-Exact commands, branch rules, deployment workflows, environment variables, and Vercel configuration are intentionally deferred. CI/CD is not part of Phase 0.
+## Hosting and deployment
+
+Approved architecture:
+
+- Vercel is the production host.
+- Git integration is the deployment mechanism.
+- Pull requests use Preview deployments.
+- `main` is the Production branch.
+- Repository CI validates pull requests and pushes to `main`. It does not deploy.
+- Production remains static `dist/` output. No Astro adapter, application server, database, or runtime API is introduced.
+- There are no required environment variables.
+
+Account configuration is still pending Phase 12C. This document does not claim that a Vercel project, Git integration, or domain mapping has already been configured. DNS and domain cutover remain a later human-approved operational action. Operational detail is in [DEPLOYMENT.md](DEPLOYMENT.md) and [ADR-011](docs/adr/ADR-011-vercel-git-deployment.md).
 
 ## Architectural boundaries
 
