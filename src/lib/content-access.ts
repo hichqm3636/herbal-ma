@@ -396,3 +396,29 @@ export async function resolvePublicCategoryContent(
     ingredients,
   };
 }
+
+export async function resolvePublicIngredientArticles(
+  ingredient: CollectionEntry<"ingredients">,
+): Promise<CollectionEntry<"articles">[]> {
+  assertPublicEntry(ingredient);
+
+  const locale = ingredient.data.locale;
+  const articles: CollectionEntry<"articles">[] = [];
+
+  for (const article of await listPublicEntries("articles", locale)) {
+    const assigned = await resolvePublicReferences(
+      "ingredients",
+      locale,
+      article.data.ingredients,
+    );
+    if (
+      assigned.some((assignedIngredient) =>
+        isSameLocalizedEntry(assignedIngredient, ingredient),
+      )
+    ) {
+      articles.push(article);
+    }
+  }
+
+  return articles;
+}
