@@ -11,8 +11,12 @@ authors:
 approvedBy: hicham
 approvedAt: "2026-09-22T11:41:00Z"
 publishedAt: "2026-09-22T11:53:46Z"
+updatedAt: "2026-09-22T12:26:50Z"
 categories:
   - en/understanding-supplements
+relatedArticles:
+  - en/how-to-read-a-supplement-label
+  - en/how-supplement-evidence-is-evaluated
 sources:
   - source: fda-questions-and-answers-dietary-supplements
     supports: States the U.S. statutory definition of a dietary supplement and lists typical dietary ingredients and ingested product forms under U.S. law.

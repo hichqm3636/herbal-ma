@@ -13,9 +13,13 @@ reviewers:
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
 publishedAt: "2026-09-22T11:53:46Z"
+updatedAt: "2026-09-22T12:26:50Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - ar/labels-and-formulations
+relatedArticles:
+  - ar/common-units-on-supplement-labels
+  - ar/how-supplement-evidence-is-evaluated
 sources:
   - source: fda-dietary-supplement-labeling-guide-chapter-iv
     supports: يصف لوحة Supplement Facts الأميركية، بما في ذلك حجم الحصة وعدد الحصص في العبوة، ووجوب ذكر أسماء المكوّنات الغذائية وكمياتها.

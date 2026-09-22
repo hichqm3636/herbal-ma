@@ -13,9 +13,12 @@ reviewers:
 approvedBy: kholoud-fdil
 approvedAt: "2026-09-22T11:41:00Z"
 publishedAt: "2026-09-22T11:53:46Z"
+updatedAt: "2026-09-22T12:26:50Z"
 lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - ar/understanding-supplements
+relatedArticles:
+  - ar/what-dietary-supplements-are
 sources:
   - source: nccih-types-of-research
     supports: يميّز البحث الأساسي والتجارب السريرية والمراجعات المنهجية والتحليلات التجميعية، ويذكر أن التجارب السريرية المخططة جيدًا تعطي أوضح المعلومات عن ما إذا كان علاج أو تغيير في نمط الحياة فعّالًا وآمنًا لدى البشر.

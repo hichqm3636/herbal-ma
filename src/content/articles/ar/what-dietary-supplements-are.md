@@ -11,8 +11,12 @@ authors:
 approvedBy: hicham
 approvedAt: "2026-09-22T11:41:00Z"
 publishedAt: "2026-09-22T11:53:46Z"
+updatedAt: "2026-09-22T12:26:50Z"
 categories:
   - ar/understanding-supplements
+relatedArticles:
+  - ar/how-to-read-a-supplement-label
+  - ar/how-supplement-evidence-is-evaluated
 sources:
   - source: fda-questions-and-answers-dietary-supplements
     supports: يعرض التعريف القانوني الأميركي للمكمّل الغذائي، ويذكر أصناف المكوّنات الغذائية وأشكال المنتجات التي تُبتلع وفق القانون الأميركي.
