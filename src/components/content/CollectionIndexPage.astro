@@ -88,6 +88,8 @@ const alternates =
     ? getListingHreflangLinks(collection, Astro.site)
     : undefined;
 const robots = isPopulated ? undefined : "noindex,follow";
+const listClass =
+  collection === "articles" ? "card-grid" : "card-grid card-grid--pair";
 
 function sortCurrentEntries(
   listingCollection: LocalizedCollection,
@@ -151,28 +153,30 @@ function formatUtcDate(value: string): string {
 >
   <SiteNavigation locale={locale} current={collection} />
   <LocaleNavigation currentLocale={locale} targetPath={counterpartPath} />
-  <main>
-    <h1>{copy.heading}</h1>
-    <p>{copy.description}</p>
+  <main class="page-shell page-shell--reading">
+    <header class="page-header">
+      <h1 class="page-header__title">{copy.heading}</h1>
+      <p class="page-summary">{copy.description}</p>
+    </header>
     {isPopulated ? (
-      <ul>
+      <ul class={listClass}>
         {collection === "articles" &&
           (sortedEntries as CollectionEntry<"articles">[]).map((entry) => {
             const publishedAt = getPublicPublishedAt(entry);
             return (
               <li>
-                <article>
-                  <h2>
+                <article class="content-card">
+                  <h2 class="content-card__title">
                     <a href={getPublicEntryPath(entry)}>{entry.data.title}</a>
                   </h2>
-                  <p>{entry.data.summary}</p>
-                  <p>
+                  <p class="content-card__text">{entry.data.summary}</p>
+                  <p class="content-card__meta">
                     <time datetime={publishedAt}>
                       {formatUtcDate(publishedAt)}
                     </time>
                   </p>
                   {entry.data.status === "needs-update" && (
-                    <p>
+                    <p class="status-note status-note--warning">
                       <strong>{needsUpdateNotice}</strong>
                     </p>
                   )}
@@ -183,47 +187,28 @@ function formatUtcDate(value: string): string {
         {collection === "ingredients" &&
           (sortedEntries as CollectionEntry<"ingredients">[]).map((entry) => (
             <li>
-              <article>
-                <h2>
+              <article class="content-card">
+                <h2 class="content-card__title">
                   <a href={getPublicEntryPath(entry)}>{entry.data.name}</a>
                 </h2>
-                <p>{entry.data.summary}</p>
+                <p class="content-card__text">{entry.data.summary}</p>
               </article>
             </li>
           ))}
         {collection === "categories" &&
           (sortedEntries as CollectionEntry<"categories">[]).map((entry) => (
             <li>
-              <article>
-                <h2>
+              <article class="content-card">
+                <h2 class="content-card__title">
                   <a href={getPublicEntryPath(entry)}>{entry.data.name}</a>
                 </h2>
-                <p>{entry.data.description}</p>
+                <p class="content-card__text">{entry.data.description}</p>
               </article>
             </li>
           ))}
       </ul>
     ) : (
-      <p>{emptyMessage}</p>
+      <p class="empty-state">{emptyMessage}</p>
     )}
   </main>
 </LocaleLayout>
-
-<style>
-  main {
-    max-inline-size: 40rem;
-    margin-inline: auto;
-    padding: 1rem;
-    line-height: 1.6;
-  }
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li + li {
-    margin-block-start: 1.5rem;
-  }
-</style>

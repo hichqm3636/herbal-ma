@@ -26,15 +26,13 @@ const copy = {
 }[currentLocale];
 ---
 
-<nav aria-label={copy.label}>
-  <a href={targetPath} lang={otherLocale} dir={otherDirection}>
+<nav class="locale-navigation" aria-label={copy.label}>
+  <a
+    class="locale-navigation__link"
+    href={targetPath}
+    lang={otherLocale}
+    dir={otherDirection}
+  >
     {copy.link}
   </a>
 </nav>
-
-<style>
-  nav {
-    padding-inline: 1rem;
-    padding-block-end: 0.75rem;
-  }
-</style>

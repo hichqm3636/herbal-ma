@@ -51,11 +51,11 @@ function formatUtcDate(value: string): string {
 ---
 
 {citations.length > 0 && (
-  <section>
-    <h2>{copy.heading}</h2>
-    <ol>
+  <section class="section section--divided references">
+    <h2 class="section__heading">{copy.heading}</h2>
+    <ol class="references__list">
       {citations.map((citation) => (
-        <li>
+        <li class="references__item">
           <cite>{citation.title}</cite>
           <p>
             {copy.publisher}

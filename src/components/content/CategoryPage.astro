@@ -74,8 +74,8 @@ const copy = {
   />
 
   {parent && (
-    <section>
-      <h2>{copy.parent}</h2>
+    <section class="section section--divided">
+      <h2 class="section__heading">{copy.parent}</h2>
       <p>
         <a href={getPublicEntryPath(parent)}>{parent.data.name}</a>
       </p>
@@ -83,9 +83,9 @@ const copy = {
   )}
 
   {children.length > 0 && (
-    <section>
-      <h2>{copy.children}</h2>
-      <ul>
+    <section class="section section--divided">
+      <h2 class="section__heading">{copy.children}</h2>
+      <ul class="pill-list">
         {children.map((child) => (
           <li>
             <a href={getPublicEntryPath(child)}>{child.data.name}</a>
@@ -96,9 +96,9 @@ const copy = {
   )}
 
   {articles.length > 0 && (
-    <section>
-      <h2>{copy.articles}</h2>
-      <ul>
+    <section class="section section--divided">
+      <h2 class="section__heading">{copy.articles}</h2>
+      <ul class="entity-list">
         {articles.map((article) => (
           <li>
             <a href={getPublicEntryPath(article)}>{article.data.title}</a>
@@ -109,9 +109,9 @@ const copy = {
   )}
 
   {ingredients.length > 0 && (
-    <section>
-      <h2>{copy.ingredients}</h2>
-      <ul>
+    <section class="section section--divided">
+      <h2 class="section__heading">{copy.ingredients}</h2>
+      <ul class="pill-list">
         {ingredients.map((ingredient) => (
           <li>
             <a href={getPublicEntryPath(ingredient)}>{ingredient.data.name}</a>

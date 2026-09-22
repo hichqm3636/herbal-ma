@@ -4,9 +4,11 @@ Herbal.ma is an independent, content-first knowledge platform about dietary supp
 
 ## Current status
 
-The project is in **Phase 7: localized homepage and information architecture foundation**. `/` remains the language-choice gateway. `/ar/` and `/en/` are real localized homepages. They are editorial entry points, not a finished visual design.
+The project is in **Phase 8: design system and visual layer**. `/` remains the language-choice gateway. `/ar/` and `/en/` are real localized homepages.
 
-Static collection browsing exists for Articles, Ingredients, and Categories in Arabic and English. Article, Ingredient, and Category detail routes remain supported for public entries. Committed Markdown files remain non-production fixtures and are not public. Production content still does not exist. Visual design is still intentionally minimal. Deployment remains unconfigured. Hosting, database, authentication, CMS, and CI/CD have not been configured.
+Static collection browsing exists for Articles, Ingredients, and Categories in Arabic and English. Article, Ingredient, and Category detail routes remain supported for public entries. The first coherent visual system now exists: a single global stylesheet defines the design tokens, typography, layout, and component treatments used across both reading directions. It is documented in [DESIGN.md](DESIGN.md).
+
+Committed Markdown files remain non-production fixtures and are not public. Production content still does not exist. Deployment remains unconfigured. Hosting, database, authentication, CMS, and CI/CD have not been configured.
 
 ## Local development
 
@@ -33,7 +35,7 @@ npm run build
 | `npm run validate` | Run format check plus the checked static build |
 | `npm run preview` | Serve the static build locally |
 
-Phase 7 establishes localized homepages and the homepage information architecture only. It is not the finished Herbal.ma website. Production content, final visual design, and deployment are still not implemented.
+Phase 8 establishes the design system and visual layer only. It is not the finished Herbal.ma website. Production content and deployment are still not implemented.
 
 ## Documentation map
 
@@ -42,6 +44,7 @@ Phase 7 establishes localized homepages and the homepage information architectur
 - [CONTENT_MODEL.md](CONTENT_MODEL.md) — conceptual content domain model
 - [EDITORIAL_POLICY.md](EDITORIAL_POLICY.md) — evidence, review, publishing, and health-content rules
 - [SEO.md](SEO.md) — bilingual URL, indexing, metadata, and internal-linking principles
+- [DESIGN.md](DESIGN.md) — design tokens, typography, layout, and visual component rules
 - [AGENTS.md](AGENTS.md) — mandatory instructions for AI coding agents
 - [docs/adr/](docs/adr/) — accepted architecture decision records
 
