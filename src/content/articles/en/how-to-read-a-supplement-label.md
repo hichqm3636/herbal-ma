@@ -71,9 +71,7 @@ Where a U.S. product uses a proprietary blend, FDA’s labeling guide requires t
 
 ## Administrative lines
 
-Many packages also carry the name and place of business of the manufacturer, packer, or distributor, a net quantity, and sometimes a lot or expiry statement. Those lines answer “who is responsible for this package in this market?” They do not answer “does this ingredient work?” FDA’s questions-and-answers page is about the legal category, not about judging a factory from its address.
-
-Expiry dating, where it appears, is a dating statement on that package. Rules for whether and how a date must appear differ by jurisdiction. This article does not treat a date stamp as proof of quality.
+Many packages also carry the name and place of business of the manufacturer, packer, or distributor, and a net quantity. Those lines answer “who is responsible for this package in this market?” They do not answer “does this ingredient work?” FDA’s questions-and-answers page lists those identity and quantity statements among the required U.S. label elements. It does not offer a method for judging a factory from its address.
 
 ## How to use this reading method
 

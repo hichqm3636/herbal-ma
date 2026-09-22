@@ -15,6 +15,8 @@ categories:
 sources:
   - source: nccih-types-of-research
     supports: Distinguishes basic research, clinical trials, systematic reviews, and meta-analyses, and states that well-planned clinical trials give the clearest information about whether a change is effective and safe in humans.
+  - source: nih-clinical-trial-observational-study-definitions
+    supports: Distinguishes observational studies involving humans, in which researchers gather data without performing an intervention, from clinical trials, in which participants are prospectively assigned to an intervention to evaluate health-related outcomes.
   - source: nccih-checklist-understanding-health-news-stories
     supports: States that laboratory or animal findings are not immediately the same as human evidence, that small studies are weaker, that one study rarely proves anything, and that funding conflicts warrant caution.
 ---
@@ -37,21 +39,21 @@ Laboratory studies may use cells, isolated compounds, or animals. They can be in
 
 A headline that begins with “scientists found” and then names a supplement has not yet told you whether the finding was in a dish, in an animal, or in people. That distinction is part of evidence literacy. It is not a dismissal of laboratory work.
 
-## Observational studies
+## Observational studies involving humans
 
-Some human research does not assign a product to anyone. Researchers record what people already eat, take, or do, and they look for patterns. That design can raise questions and can describe associations in a population.
+The U.S. National Institutes of Health (NIH) describes **observational studies involving humans** as studies in which data are gathered from or about participants, but the researchers do not perform an intervention. The work may follow people in real time, or it may use information already recorded.
 
-It cannot, on its own, do the job that NCCIH assigns to a well-planned clinical trial: give the clearest information about whether a treatment or a lifestyle change is effective and safe in humans. People who already use a supplement may differ in diet, income, other medicines, or health-seeking behavior from people who do not. A pattern can be real and still not mean that the product caused the pattern.
+That design can identify patterns or associations. A reader of supplement claims will often meet it as research that records who already uses a product and then looks for differences in a health measure. Interpretation requires attention to how the groups differed and to the limits of the study design. People who already use a supplement may differ in diet, income, other medicines, or health-seeking behavior from people who do not. A pattern can be real and still leave open what produced it.
 
-Observational work belongs in the evidence landscape. It is not a shortcut around studies that test a defined intervention in people.
+Observational studies involving humans are not clinical trials. They belong in the evidence landscape. Different questions need different designs. A careful reader still asks what was observed, whether anyone assigned an intervention, and what the study can and cannot show.
 
-## Controlled human trials
+## Clinical trials in humans
 
-NCCIH describes **clinical trials** as studies done with people. They may vary in size and type. Well-planned clinical trials, in NCCIH’s wording, give the clearest information about whether a treatment or a lifestyle change is effective and safe in humans. They are usually done only after smaller preliminary studies, because they are complicated, lengthy, and expensive.
+NIH defines a **clinical trial** as a research study in which one or more human subjects are prospectively assigned to one or more interventions (which may include a placebo or other control) to evaluate the effects of those interventions on health-related biomedical or behavioral outcomes. NCCIH, writing for a general reader, describes clinical trials as studies done with people. They may vary in size and type. Well-planned clinical trials can provide particularly clear information about whether a treatment or a lifestyle change is effective and safe in humans. NCCIH uses similar wording. They are usually done only after smaller preliminary studies, because they are complicated, lengthy, and expensive.
 
-“Controlled” in everyday reading means that the study compared the intervention with something else — often a placebo or another active comparison — rather than only describing people who already chose the product. Not every study in people is a strong trial. Sample size, duration, and whether participants resemble the reader all matter, as NCCIH’s checklist underlines.
+That is a statement about what a well-planned trial *can* provide. It is not a claim that every trial is stronger than every observational study, or that the existence of a trial closes a question.
 
-This article does not treat “a trial exists” as “the question is closed.” Trials can be small, short, poorly described, or hard to apply to a different product with a different composition.
+NIH’s definition turns on prospective assignment to an intervention and on evaluation of health-related outcomes. It does not require every clinical trial to include a comparison group. Sample size, duration, and whether participants resemble the reader all matter, as NCCIH’s checklist underlines. Trials can be small, short, poorly described, or hard to apply to a different product with a different composition. This article does not treat “a trial exists” as “the question is closed.”
 
 ## Systematic reviews and meta-analyses
 
