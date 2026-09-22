@@ -4,12 +4,15 @@ translationKey: how-to-read-a-supplement-label
 slug: how-to-read-a-supplement-label
 title: كيف تقرأ ملصق مكمّل غذائي
 summary: جولة موجّهة في أجزاء ملصق المكمّل، تستخدم أمثلة رسمية أميركية وأوروبية بوصفها أمثلة مرتبطة بولاية قضائية محددة، دون التوصية بمنتج أو علامة أو مقدار شخصي.
-status: draft
+status: approved
 riskLevel: medium
 authors:
   - hicham
 reviewers:
   - kholoud-fdil
+approvedBy: kholoud-fdil
+approvedAt: "2026-09-22T11:41:00Z"
+lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - ar/labels-and-formulations
 sources:

@@ -4,12 +4,15 @@ translationKey: how-supplement-evidence-is-evaluated
 slug: how-supplement-evidence-is-evaluated
 title: كيف تُقيَّم الأدلة حول المكمّلات الغذائية
 summary: شرح لقارئ عام لأنواع المعلومات التي يلتقيها الناس عن المكمّلات — من الاستعمال التقليدي إلى العمل المختبري والدراسات في البشر ومراجعات الأدلة — ولماذا نادرًا ما تحسم دراسة واحدة أو شارة تسويقية سؤالًا.
-status: draft
+status: approved
 riskLevel: medium
 authors:
   - hicham
 reviewers:
   - kholoud-fdil
+approvedBy: kholoud-fdil
+approvedAt: "2026-09-22T11:41:00Z"
+lastReviewedAt: "2026-09-22T11:41:00Z"
 categories:
   - ar/understanding-supplements
 sources:

@@ -4,10 +4,12 @@ translationKey: magnesium
 slug: magnesium
 name: Magnesium
 summary: Magnesium is a mineral found in many foods, added to some products, and sold as a dietary supplement. Its name appears often on supplement ingredient lists. This record identifies the mineral and does not describe medical use.
-status: draft
+status: approved
 riskLevel: low
 authors:
   - hicham
+approvedBy: hicham
+approvedAt: "2026-09-22T11:41:00Z"
 categories:
   - en/nutrients
 sources:
