@@ -64,6 +64,21 @@ Populated listings are indexable, emit an absolute self-canonical URL for that c
 
 Locale roots `/ar/` and `/en/` include structural site and language navigation. Phase 7 makes them indexable public homepages; see the homepage language cluster above.
 
+## Phase 11 search pages
+
+Search exists at two localized URLs:
+
+- `/ar/search/`
+- `/en/search/`
+
+Both are `noindex,follow`. Search is a discovery tool, not an editorial publication, and query result pages must not become thin keyword pages.
+
+Each page emits an absolute self-canonical URL for its own locale — `https://herbal.ma/ar/search/` or `https://herbal.ma/en/search/` — and the reciprocal `hreflang="ar"` and `hreflang="en"` pair for those two URLs. Phase 11 emits no `hreflang="x-default"`; that remains limited to the Phase 7 homepage language cluster.
+
+Query-parameter URLs such as `/ar/search/?q=فيتامين` are not separate documents. They declare the same query-free locale Search URL as canonical, so query variants consolidate rather than multiply.
+
+Search pages are excluded from the sitemap, consistent with the rule that sitemaps contain only canonical, public, indexable URLs. They emit no JSON-LD. The language control on a Search page points at the other locale's Search URL and does not carry the query.
+
 ## Language-prefixed URLs
 
 - All indexable Arabic content belongs under `/ar/`.

@@ -29,7 +29,18 @@ Public content should be generated as static output wherever the approved v1 pro
 
 Interactive behavior may be introduced later only when it has a concrete use case and does not quietly turn the site into an application-first system.
 
-Basic search or content discovery in v1 must remain compatible with static output and must not introduce an application database. The exact search mechanism and any minimal analytics mechanism are intentionally deferred to implementation review; neither is selected in Phase 0.
+Basic search or content discovery in v1 must remain compatible with static output and must not introduce an application database. Any minimal analytics mechanism remains deferred to implementation review and is not selected.
+
+## Static search
+
+The v1 search mechanism is now selected and recorded in [ADR-010](docs/adr/ADR-010-static-client-search.md):
+
+- `/ar/search/` and `/en/search/` are statically generated localized pages.
+- Each page embeds its own locale's public search dataset, built through the content-source boundary at build time. Only `published` and `needs-update` entries enter it.
+- Matching, ranking, and Arabic and English normalization are project-owned and run in page-local client JavaScript.
+- There is no database, no search API, no external search service, and no search dependency.
+
+Search is the only v1 capability permitted to require JavaScript. All other public reading and navigation remains static HTML.
 
 ## Structured content collections
 

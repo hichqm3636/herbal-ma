@@ -2,9 +2,9 @@
 import type { LocalizedCollection } from "../lib/content-access";
 import type { Locale } from "../lib/locales";
 import { getLocaleRoot } from "../lib/locales";
-import { getCollectionIndexPath } from "../lib/routes";
+import { getCollectionIndexPath, getSearchPath } from "../lib/routes";
 
-export type SiteNavigationCurrent = "home" | LocalizedCollection;
+export type SiteNavigationCurrent = "home" | LocalizedCollection | "search";
 
 interface Props {
   locale: Locale;
@@ -20,6 +20,7 @@ const copy = {
     articles: "المقالات",
     ingredients: "المكوّنات",
     categories: "التصنيفات",
+    search: "بحث",
   },
   en: {
     label: "Site navigation",
@@ -27,6 +28,7 @@ const copy = {
     articles: "Articles",
     ingredients: "Ingredients",
     categories: "Categories",
+    search: "Search",
   },
 }[locale];
 
@@ -50,6 +52,11 @@ const items = [
     id: "categories" as const,
     href: getCollectionIndexPath("categories", locale),
     label: copy.categories,
+  },
+  {
+    id: "search" as const,
+    href: getSearchPath(locale),
+    label: copy.search,
   },
 ];
 ---

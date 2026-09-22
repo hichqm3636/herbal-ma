@@ -1,0 +1,332 @@
+---
+import {
+  getPublicEntryPath,
+  listPublicEntries,
+} from "../../lib/content-access";
+import { getOtherLocale, type Locale } from "../../lib/locales";
+import { getSearchPath } from "../../lib/routes";
+import type { SearchRecord } from "../../lib/search";
+import { MAX_QUERY_LENGTH } from "../../lib/search";
+import { getAbsoluteSiteUrl, type SeoAlternate } from "../../lib/seo";
+import LocaleLayout from "../../layouts/LocaleLayout.astro";
+import LocaleNavigation from "../LocaleNavigation.astro";
+import SiteNavigation from "../SiteNavigation.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const searchCopy = {
+  ar: {
+    title: "بحث — Herbal.ma",
+    description: "ابحث في مقالات Herbal.ma ومكوّناته وتصنيفاته.",
+    heading: "بحث",
+    fieldLabel: "ابحث في Herbal.ma",
+    submit: "بحث",
+    prompt: "أدخل عبارة للبحث في المقالات والمكوّنات والتصنيفات.",
+    noResults: "لا توجد نتائج",
+    results: "النتائج",
+    needsUpdate: "يحتاج إلى تحديث",
+    noscript: "يتطلب البحث تشغيل JavaScript.",
+    article: "المقالات",
+    ingredient: "المكوّنات",
+    category: "التصنيفات",
+  },
+  en: {
+    title: "Search — Herbal.ma",
+    description: "Search Herbal.ma articles, ingredients, and categories.",
+    heading: "Search",
+    fieldLabel: "Search Herbal.ma",
+    submit: "Search",
+    prompt: "Enter a phrase to search articles, ingredients, and categories.",
+    noResults: "No results",
+    results: "Results",
+    needsUpdate: "Needs update",
+    noscript: "Search requires JavaScript.",
+    article: "Articles",
+    ingredient: "Ingredients",
+    category: "Categories",
+  },
+} as const;
+
+const { locale } = Astro.props;
+const copy = searchCopy[locale];
+const otherLocale = getOtherLocale(locale);
+const searchPath = getSearchPath(locale);
+const counterpartPath = getSearchPath(otherLocale);
+const canonical = getAbsoluteSiteUrl(searchPath, Astro.site);
+const alternates: SeoAlternate[] = (["ar", "en"] as const).map((hreflang) => ({
+  hreflang,
+  href: getAbsoluteSiteUrl(getSearchPath(hreflang), Astro.site),
+}));
+
+const [articles, ingredients, categories] = await Promise.all([
+  listPublicEntries("articles", locale),
+  listPublicEntries("ingredients", locale),
+  listPublicEntries("categories", locale),
+]);
+
+const records: SearchRecord[] = [
+  ...articles.map((entry) => ({
+    type: "article" as const,
+    title: entry.data.title,
+    summary: entry.data.summary,
+    href: getPublicEntryPath(entry),
+    needsUpdate: entry.data.status === "needs-update",
+  })),
+  ...ingredients.map((entry) => ({
+    type: "ingredient" as const,
+    title: entry.data.name,
+    summary: entry.data.summary,
+    href: getPublicEntryPath(entry),
+    aliases: entry.data.aliases,
+    needsUpdate: entry.data.status === "needs-update",
+  })),
+  ...categories.map((entry) => ({
+    type: "category" as const,
+    title: entry.data.name,
+    summary: entry.data.description,
+    href: getPublicEntryPath(entry),
+    needsUpdate: entry.data.status === "needs-update",
+  })),
+];
+---
+
+<LocaleLayout
+  locale={locale}
+  title={copy.title}
+  description={copy.description}
+  canonical={canonical}
+  alternates={alternates}
+  robots="noindex,follow"
+>
+  <SiteNavigation locale={locale} current="search" />
+  <LocaleNavigation currentLocale={locale} targetPath={counterpartPath} />
+  <main class="page-shell page-shell--reading">
+    <header class="page-header">
+      <h1 class="page-header__title">{copy.heading}</h1>
+    </header>
+    <div
+      data-search
+      data-search-locale={locale}
+      data-search-index={JSON.stringify(records)}
+      data-label-article={copy.article}
+      data-label-ingredient={copy.ingredient}
+      data-label-category={copy.category}
+      data-label-needs-update={copy.needsUpdate}
+      data-label-no-results={copy.noResults}
+      data-label-results={copy.results}
+    >
+      <form class="search-form" role="search" method="get" action={searchPath}>
+        <label class="search-form__label" for="search-query">
+          {copy.fieldLabel}
+        </label>
+        <div class="search-form__controls">
+          <input
+            class="search-form__input"
+            id="search-query"
+            type="search"
+            name="q"
+            maxlength={MAX_QUERY_LENGTH}
+            autocomplete="off"
+            data-search-input
+          />
+          <button class="search-form__submit" type="submit">
+            {copy.submit}
+          </button>
+        </div>
+      </form>
+      <noscript>
+        <p class="status-note search-noscript">{copy.noscript}</p>
+      </noscript>
+      <p
+        class="search-status"
+        data-search-status
+        aria-live="polite"
+        aria-atomic="true"
+      ></p>
+      <p class="empty-state search-message" data-search-message>
+        {copy.prompt}
+      </p>
+      <ul class="card-grid search-results" data-search-results hidden></ul>
+    </div>
+  </main>
+</LocaleLayout>
+
+<style>
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-block-end: var(--space-6);
+  }
+
+  .search-form__label {
+    font-weight: 600;
+  }
+
+  .search-form__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .search-form__input {
+    flex: 1 1 16rem;
+    min-inline-size: 0;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    appearance: none;
+  }
+
+  .search-form__submit {
+    padding: var(--space-2) var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .search-form__submit:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+  }
+
+  .search-noscript {
+    margin-block-end: var(--space-5);
+  }
+
+  .search-status {
+    margin-block: 0 var(--space-5);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .search-message[hidden],
+  .search-results[hidden] {
+    display: none;
+  }
+
+  /*
+   * Result cards are built by the client script, so they never carry the
+   * scoped component attribute and need a global rule.
+   */
+  :global(.search-result__type) {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>
+
+<script>
+  import {
+    prepareSearchQuery,
+    searchRecords,
+    type SearchRecord,
+    type SearchEntityType,
+  } from "../../lib/search";
+  import { isLocale } from "../../lib/locales";
+
+  const root = document.querySelector<HTMLElement>("[data-search]");
+  const input = document.querySelector<HTMLInputElement>("[data-search-input]");
+  const status = document.querySelector<HTMLElement>("[data-search-status]");
+  const message = document.querySelector<HTMLElement>("[data-search-message]");
+  const list = document.querySelector<HTMLUListElement>(
+    "[data-search-results]",
+  );
+
+  function readRecords(value: string | undefined): SearchRecord[] {
+    if (value === undefined) {
+      return [];
+    }
+
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed) ? (parsed as SearchRecord[]) : [];
+  }
+
+  function renderResult(
+    record: SearchRecord,
+    typeLabel: string,
+    needsUpdateLabel: string,
+  ): HTMLLIElement {
+    const item = document.createElement("li");
+    const card = document.createElement("article");
+    card.className = "content-card";
+
+    const type = document.createElement("p");
+    type.className = "search-result__type";
+    type.textContent = typeLabel;
+
+    const title = document.createElement("h2");
+    title.className = "content-card__title";
+    const link = document.createElement("a");
+    link.setAttribute("href", record.href);
+    link.textContent = record.title;
+    title.append(link);
+
+    const summary = document.createElement("p");
+    summary.className = "content-card__text";
+    summary.textContent = record.summary;
+
+    card.append(type, title, summary);
+
+    if (record.needsUpdate) {
+      const note = document.createElement("p");
+      note.className = "status-note status-note--warning";
+      const label = document.createElement("strong");
+      label.textContent = needsUpdateLabel;
+      note.append(label);
+      card.append(note);
+    }
+
+    item.append(card);
+    return item;
+  }
+
+  if (root && input && status && message && list) {
+    const locale = root.dataset.searchLocale;
+
+    if (isLocale(locale)) {
+      const records = readRecords(root.dataset.searchIndex);
+      const typeLabels: Record<SearchEntityType, string> = {
+        article: root.dataset.labelArticle ?? "",
+        ingredient: root.dataset.labelIngredient ?? "",
+        category: root.dataset.labelCategory ?? "",
+      };
+      const needsUpdateLabel = root.dataset.labelNeedsUpdate ?? "";
+      const noResultsLabel = root.dataset.labelNoResults ?? "";
+      const resultsLabel = root.dataset.labelResults ?? "";
+
+      const rawQuery =
+        new URLSearchParams(window.location.search).get("q") ?? "";
+      input.value = rawQuery;
+
+      const query = prepareSearchQuery(rawQuery, locale);
+
+      if (query !== undefined) {
+        const results = searchRecords(records, query, locale);
+        status.textContent = `${resultsLabel}: ${results.length}`;
+
+        if (results.length === 0) {
+          message.textContent = noResultsLabel;
+          message.hidden = false;
+          list.hidden = true;
+        } else {
+          list.replaceChildren(
+            ...results.map((record) =>
+              renderResult(record, typeLabels[record.type], needsUpdateLabel),
+            ),
+          );
+          message.hidden = true;
+          list.hidden = false;
+        }
+      }
+    }
+  }
+</script>
