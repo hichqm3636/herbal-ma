@@ -14,7 +14,7 @@ ingredients:
   - en/chamomile
 sources:
   - source: nccih-chamomile
-    supports: States that two plants are commonly called chamomile, that NCCIH's fact sheet focuses on German chamomile rather than treating one plant as the whole concept, and that chamomile is used orally in amounts commonly found in teas and other foods.
+    supports: States that two plants are commonly called chamomile, that NCCIH's fact sheet focuses on German chamomile rather than treating one plant as the whole concept, and that NCCIH discusses oral use of chamomile in amounts commonly found in teas and other foods.
 ---
 
 “Chamomile” is a familiar word for a plant people meet in teas, in foods, and on some product labels. Familiarity is not the same as a single botanical identity. This article explains that problem of naming, and it describes how Herbal.ma treats chamomile as a knowledge subject. It does not discuss treatment of any condition.
@@ -39,7 +39,7 @@ History of mention is not a modern study. It does not identify the plant in a su
 
 ## How people commonly encounter it
 
-NCCIH describes chamomile as used orally in amounts commonly found in **teas and other foods**. That is the usage context this article is willing to record: an infusion or a food ingredient, not a therapy.
+NCCIH discusses oral use of chamomile in amounts commonly found in **teas and other foods**. That is the usage context this article is willing to record: an infusion or a food ingredient, not a therapy.
 
 Tea and food context still leaves identity work to do. An infusion labeled chamomile may be one plant or the other, a mixture, or a flavored product that only borrows the name. The bag does not become a botanical certificate because it is sold next to other herbal teas.
 
