@@ -15,8 +15,6 @@ ingredients:
 sources:
   - source: nih-ods-vitamin-d-fact-sheet
     supports: Defines vitamin D as a fat-soluble vitamin present in a few foods, added to others, and sold as a supplement; notes endogenous production in skin exposed to ultraviolet light; and states that foods and supplements contain two main forms, D2 and D3.
-  - source: fda-daily-value-nutrition-and-supplement-facts-labels
-    supports: Lists vitamin D among nutrients that appear on U.S. Nutrition Facts and Supplement Facts labels and gives the current U.S. Daily Value for vitamin D in micrograms.
 ---
 
 “Vitamin D” is a nutrient name that appears on food packages, on fortified products, and on supplement labels. This article identifies what that name refers to. It is not a protocol for sun exposure, a dose table, or a discussion of any disease.
@@ -51,11 +49,7 @@ Dietary supplements are another place the name appears: as a single-nutrient pro
 
 ## Why the name appears on labels
 
-On U.S. packaged foods, vitamin D is one of the vitamins whose amount and Percent Daily Value FDA requires on the Nutrition Facts label. FDA’s Daily Value page also states that a Supplement Facts label must list the same nutrients as Nutrition Facts when those nutrients are present in an amount greater than zero. That is a U.S. labeling reason readers see “vitamin D” in a nutrition panel.
-
-The same U.S. page currently lists the Daily Value for vitamin D as 20 micrograms. That figure is a label reference for calculating %DV in that market. It is not a personal dose, and it is not used here as a recommended intake.
-
-Some labels still show international units (IU) as well as micrograms. For vitamin D specifically, the NIH fact sheet states that 1 microgram equals 40 IU. That conversion is about this nutrient’s two unit systems. It is not a dose, and it does not apply automatically to other vitamins.
+Readers meet the name on food packages and on supplement labels because vitamin D occurs in some foods, is added to others, and is sold as a dietary supplement. In the United States, packaged foods and dietary supplements may declare vitamin D using that market’s labeling conventions. This article records that the name appears. It does not teach how to read a percent Daily Value, convert international units, or calculate a labeled amount.
 
 ## How this page relates to the Ingredient record
 
@@ -65,6 +59,6 @@ Neither this article nor the Ingredient record is a treatment monograph.
 
 ## What this article will not do
 
-It will not state a recommended number of international units. It will not discuss treating deficiency. It will not discuss osteoporosis, rickets, infection, mood, pregnancy, or infants. It will not prescribe sunlight. It will not tell a reader to start, stop, or choose a supplement.
+It will not state a recommended intake. It will not teach unit conversion or Percent Daily Value. It will not discuss treating deficiency. It will not discuss osteoporosis, rickets, infection, mood, pregnancy, or infants. It will not prescribe sunlight. It will not tell a reader to start, stop, or choose a supplement.
 
 If a later page on Herbal.ma takes up any of those topics, it will need its own risk classification, its own sources, and — where the rules require it — scientific review. This overview stops at identity.

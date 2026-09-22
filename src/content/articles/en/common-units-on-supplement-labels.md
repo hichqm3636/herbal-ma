@@ -5,9 +5,11 @@ slug: common-units-on-supplement-labels
 title: Common measurement units on supplement labels
 summary: An educational explanation of milligrams, micrograms, international units, and Percent Daily Value as label conventions, using U.S. examples where they apply and without converting those numbers into a personal dose.
 status: draft
-riskLevel: low
+riskLevel: medium
 authors:
   - hicham
+reviewers:
+  - kholoud-fdil
 categories:
   - en/labels-and-formulations
 sources:
