@@ -4,10 +4,12 @@ translationKey: vitamin-d-an-introductory-overview
 slug: vitamin-d-an-introductory-overview
 title: "فيتامين د: مدخل تعريفي"
 summary: مدخل تعريفي إلى فيتامين د بوصفه اسم عنصر غذائي يلتقيه القارئ في الأغذية والمنتجات المدعّمة والمكمّلات، مع بيان أن له أكثر من شكل كيميائي.
-status: draft
+status: approved
 riskLevel: low
 authors:
   - hicham
+approvedBy: hicham
+approvedAt: "2026-09-22T11:41:00Z"
 categories:
   - ar/nutrients
 ingredients:

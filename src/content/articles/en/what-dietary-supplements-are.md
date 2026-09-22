@@ -4,10 +4,12 @@ translationKey: what-dietary-supplements-are
 slug: what-dietary-supplements-are
 title: "What dietary supplements are — and what they are not"
 summary: An educational explanation of how dietary supplements are described, why legal definitions differ by country, and what Herbal.ma means when it uses the term — without treatment or buying advice.
-status: draft
+status: approved
 riskLevel: low
 authors:
   - hicham
+approvedBy: hicham
+approvedAt: "2026-09-22T11:41:00Z"
 categories:
   - en/understanding-supplements
 sources:

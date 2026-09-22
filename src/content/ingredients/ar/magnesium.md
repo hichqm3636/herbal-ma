@@ -4,10 +4,12 @@ translationKey: magnesium
 slug: magnesium
 name: المغنيسيوم
 summary: المغنيسيوم معدن يوجد في كثير من الأغذية، ويُضاف إلى بعض المنتجات، ويُباع أيضا كمكمّل غذائي. يظهر اسمه كثيرا في قوائم مكوّنات المكمّلات. هذه البطاقة تعرّف بالمعدن ولا تصف استعمالا علاجيا.
-status: draft
+status: approved
 riskLevel: low
 authors:
   - hicham
+approvedBy: hicham
+approvedAt: "2026-09-22T11:41:00Z"
 categories:
   - ar/nutrients
 sources:
