@@ -168,7 +168,8 @@ cover paragraphs, `h2`–`h4`, ordered and unordered lists, blockquotes, `strong
   italic, because synthetic italics damage Arabic.
 - Tables are `table-layout: fixed` at full width with wrapping cells, so they never
   push the page sideways on mobile while keeping table semantics.
-- Code blocks scroll horizontally inside their own surface.
+- Code blocks scroll horizontally inside their own surface and set `direction: ltr`,
+  because code is read left-to-right even inside the Arabic document.
 - Long links wrap with `overflow-wrap: anywhere`.
 
 Astro's Markdown pipeline emits Shiki's dark theme as inline styles. Phase 8 keeps
@@ -207,7 +208,8 @@ There is one design system for both directions, not two stylesheets.
 - Flex and grid alignment uses `flex-end` / `start`, which follow the inline axis.
 - Separators and decorations are direction-neutral; no arrow glyph encodes reading
   order.
-- Physical `left` / `right` values are not used.
+- Physical `left` / `right` values are not used. The one explicit direction override
+  is `.prose pre`, where code samples read left-to-right in both languages.
 
 The same architecture therefore works unchanged under `dir="rtl"` and `dir="ltr"`,
 and the counterpart language link keeps its own `lang` and `dir`.
