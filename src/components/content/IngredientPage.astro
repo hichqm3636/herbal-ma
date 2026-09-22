@@ -7,8 +7,10 @@ import {
   getPublicTranslationCounterpart,
   resolvePublicAttribution,
   resolvePublicCitations,
+  resolvePublicIngredientArticles,
   resolvePublicReferences,
 } from "../../lib/content-access";
+import { sortArticlesByPublication } from "../../lib/content-presentation";
 import {
   getAbsolutePublicEntryUrl,
   getPublicHreflangLinks,
@@ -36,6 +38,10 @@ const relatedIngredients = await resolvePublicReferences(
   locale,
   entry.data.relatedIngredients,
 );
+const articles = sortArticlesByPublication(
+  await resolvePublicIngredientArticles(entry),
+  locale,
+);
 const citations = await resolvePublicCitations(entry.data.sources);
 const counterpart = await getPublicTranslationCounterpart(
   "ingredients",
@@ -54,12 +60,14 @@ const copy = {
     commercialDisclosure: "إفصاح تجاري",
     categories: "التصنيفات",
     relatedIngredients: "مكوّنات ذات صلة",
+    articles: "مقالات حول هذا المكوّن",
   },
   en: {
     aliases: "Also known as",
     commercialDisclosure: "Commercial disclosure",
     categories: "Categories",
     relatedIngredients: "Related ingredients",
+    articles: "Articles about this ingredient",
   },
 }[locale];
 ---
@@ -125,6 +133,19 @@ const copy = {
             <a href={getPublicEntryPath(relatedIngredient)}>
               {relatedIngredient.data.name}
             </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {articles.length > 0 && (
+    <section class="section section--divided">
+      <h2 class="section__heading">{copy.articles}</h2>
+      <ul class="entity-list">
+        {articles.map((article) => (
+          <li>
+            <a href={getPublicEntryPath(article)}>{article.data.title}</a>
           </li>
         ))}
       </ul>
