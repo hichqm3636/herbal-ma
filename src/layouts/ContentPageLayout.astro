@@ -77,28 +77,30 @@ const collectionLabel = copy[collection];
   jsonLd={jsonLd}
 >
   <SiteNavigation locale={locale} />
-  <main>
-    <nav aria-label={copy.breadcrumb}>
-      <ol>
-        <li>
+  <main class="page-shell page-shell--reading">
+    <nav class="breadcrumb" aria-label={copy.breadcrumb}>
+      <ol class="breadcrumb__list">
+        <li class="breadcrumb__item">
           <a href={homeHref}>{copy.home}</a>
         </li>
-        <li>
+        <li class="breadcrumb__item">
           <a href={collectionHref}>{collectionLabel}</a>
         </li>
-        <li aria-current="page">{heading}</li>
+        <li class="breadcrumb__item" aria-current="page">
+          {heading}
+        </li>
       </ol>
     </nav>
     <article>
-      <header>
-        <h1>{heading}</h1>
-        <p>{summary}</p>
+      <header class="page-header">
+        <h1 class="page-header__title">{heading}</h1>
+        <p class="page-summary">{summary}</p>
         {needsUpdate && (
-          <p>
+          <p class="status-note status-note--warning">
             <strong>{copy.needsUpdate}</strong>
           </p>
         )}
-        <p>
+        <p class="counterpart">
           {counterpartHref ? (
             <a
               href={counterpartHref}
@@ -122,25 +124,3 @@ const collectionLabel = copy[collection];
     </article>
   </main>
 </LocaleLayout>
-
-<style>
-  main {
-    max-inline-size: 40rem;
-    margin-inline: auto;
-    padding: 1rem;
-    line-height: 1.6;
-  }
-
-  nav ol {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0.75rem;
-    list-style: none;
-    margin: 0 0 1rem;
-    padding: 0;
-  }
-
-  nav li[aria-current="page"] {
-    font-weight: 700;
-  }
-</style>

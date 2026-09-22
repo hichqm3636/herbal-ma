@@ -131,42 +131,44 @@ const exploreItems = [
     currentLocale={locale}
     targetPath={getLocaleRoot(otherLocale)}
   />
-  <main>
-    <h1>Herbal.ma</h1>
-    <p>{copy.intro}</p>
-    <section>
+  <main class="page-shell">
+    <header class="home-intro">
+      <h1 class="home-intro__title">Herbal.ma</h1>
+      <p class="home-intro__text">{copy.intro}</p>
+    </header>
+    <section class="section">
       <h2>{copy.exploreHeading}</h2>
-      <ul>
+      <ul class="card-grid card-grid--trio">
         {exploreItems.map((item) => (
-          <li>
-            <h3>
+          <li class="content-card">
+            <h3 class="content-card__title">
               <a href={item.href}>{item.label}</a>
             </h3>
-            <p>{item.text}</p>
+            <p class="content-card__text">{item.text}</p>
           </li>
         ))}
       </ul>
     </section>
     {latestArticles.length > 0 && (
-      <section>
+      <section class="section">
         <h2>{copy.latestHeading}</h2>
-        <ul>
+        <ul class="card-grid card-grid--trio">
           {latestArticles.map((entry) => {
             const publishedAt = getPublicPublishedAt(entry);
             return (
               <li>
-                <article>
-                  <h3>
+                <article class="content-card">
+                  <h3 class="content-card__title">
                     <a href={getPublicEntryPath(entry)}>{entry.data.title}</a>
                   </h3>
-                  <p>{entry.data.summary}</p>
-                  <p>
+                  <p class="content-card__text">{entry.data.summary}</p>
+                  <p class="content-card__meta">
                     <time datetime={publishedAt}>
                       {formatUtcDate(publishedAt)}
                     </time>
                   </p>
                   {entry.data.status === "needs-update" && (
-                    <p>
+                    <p class="status-note status-note--warning">
                       <strong>{copy.needsUpdate}</strong>
                     </p>
                   )}
@@ -175,33 +177,10 @@ const exploreItems = [
             );
           })}
         </ul>
-        <p>
+        <p class="section__footer">
           <a href={articlesPath}>{copy.viewAll}</a>
         </p>
       </section>
     )}
   </main>
 </LocaleLayout>
-
-<style>
-  main {
-    max-inline-size: 40rem;
-    margin-inline: auto;
-    padding: 1rem;
-    line-height: 1.6;
-  }
-
-  section + section {
-    margin-block-start: 2rem;
-  }
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li + li {
-    margin-block-start: 1.25rem;
-  }
-</style>

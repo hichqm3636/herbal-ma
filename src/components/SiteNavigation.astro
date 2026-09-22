@@ -54,11 +54,12 @@ const items = [
 ];
 ---
 
-<nav aria-label={copy.label}>
-  <ul>
+<nav class="site-navigation" aria-label={copy.label}>
+  <ul class="site-navigation__list">
     {items.map((item) => (
       <li>
         <a
+          class="site-navigation__link"
           href={item.href}
           aria-current={current === item.id ? "page" : undefined}
         >
@@ -68,22 +69,3 @@ const items = [
     ))}
   </ul>
 </nav>
-
-<style>
-  nav {
-    padding: 1rem;
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  a[aria-current="page"] {
-    font-weight: 700;
-  }
-</style>
